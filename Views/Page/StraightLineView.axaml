@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MyPaint3000.Views.Page.StraightLineView">
+	<Grid RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*">
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:"/>
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Начальная точка:"/>
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Конечная точка:"/>
+		<TextBlock Grid.Row="3" Grid.Column="0" Text="Цвет линии:"/>
+		<TextBlock Grid.Row="4" Grid.Column="0" Text="Толщина линии:"/>
+
+		<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LineName}"/>
+		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding X1Y1}"/>
+		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding X2Y2}"/>
+		<NumericUpDown Grid.Row="4" Grid.Column="1" Minimum="1" Value="1" Text="Aboba" Name="numericUpDownStroke"/>
+		<ComboBox Grid.Row="3" Grid.Column="1" ></ComboBox>
+	</Grid>
+</UserControl>
