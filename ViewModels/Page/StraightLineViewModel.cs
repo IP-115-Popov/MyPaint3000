@@ -20,7 +20,7 @@ namespace MyPaint3000.ViewModels.Page
         private string? lineName;
         private string? x1Y1;
         private string? x2Y2;
-        private int? numericText;
+        private int? lineSize;
         private MyColor? selectedColor;
         private ObservableCollection<MyColor?> colorList;
         public StraightLineViewModel()
@@ -29,7 +29,20 @@ namespace MyPaint3000.ViewModels.Page
             ColorList= new ObservableCollection<MyColor?>();
             ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) });
             ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Purple) });
+            AddItem = ReactiveCommand.Create<Unit, StraightLineViewModel>((Fig) =>
+            {
+                StraightLineViewModel rez = new StraightLineViewModel()
+                {
+                    lineName = this.lineName,
+                    x1Y1 = this.x1Y1,
+                    x2Y2 = this.x2Y2,
+                    lineSize = this.lineSize,
+                    selectedColor = this.selectedColor
+                };
 
+                return rez;
+            }
+            );
         }
         public string? Header
         {
@@ -50,10 +63,10 @@ namespace MyPaint3000.ViewModels.Page
             get => x2Y2;
             set => this.RaiseAndSetIfChanged(ref x2Y2, value);
         }
-        private int? NumericText
+        private int? LineSize
         {
-            get => numericText;
-            set => this.RaiseAndSetIfChanged(ref numericText, value);
+            get => lineSize;
+            set => this.RaiseAndSetIfChanged(ref lineSize, value);
         }
         public MyColor? SelectedColor
         {
@@ -65,7 +78,7 @@ namespace MyPaint3000.ViewModels.Page
             get => colorList;
             set => this.RaiseAndSetIfChanged(ref colorList, value);
         }
-        public ReactiveCommand<Unit, StraightLine> AddItem;
+        public ReactiveCommand<Unit, StraightLineViewModel> AddItem;
 
 }
 }

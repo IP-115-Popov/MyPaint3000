@@ -35,12 +35,17 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<ContentControl Content="{Binding MyFigure}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1"/>
-				<Button Grid.Column="0" Grid.Row="2" Name="buttonAdd" Content="Добавить"/>
-				<Button Grid.Column="1" Grid.Row="2" Name="buttonClear" Content="Сброс"/>
+				<Button Command="{Binding Add}" Grid.Column="0" Grid.Row="2" Name="buttonAdd" Content="Добавить"/>
+				<Button Command="{Binding Clear}" Grid.Column="1" Grid.Row="2" Name="buttonClear" Content="Сброс"/>
 			</Grid>
-			<Canvas Grid.Column="1" Name="canvas">			
-			</Canvas>
-			<ListBox Grid.Column="2" Name="listBoxShapes"/>
+			<ItemsControl Items="{Binding CanvasFigureList}" Grid.Column="1">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<Canvas Name="canvas"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+			<ListBox Items="{Binding ShapesFigureList}" Grid.Column="2" Name="listBoxShapes"/>
 		</Grid>
 	</Grid>
 
