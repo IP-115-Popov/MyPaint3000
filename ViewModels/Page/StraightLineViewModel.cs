@@ -11,6 +11,11 @@ namespace MyPaint3000.ViewModels.Page
 {
    public class StraightLineViewModel : ViewModelBase
     {
+        private string? header = "Прямая линия";
+        public string? Header
+        {
+            get => header;
+        }
         private string? lineName;
         private string? x1Y1;
         private string? x2Y2;

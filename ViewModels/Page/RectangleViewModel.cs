@@ -8,5 +8,10 @@ namespace MyPaint3000.ViewModels.Page
 {
     public class RectangleViewModel : ViewModelBase
     {
+        private string? header = "Прямоугольник";
+        public string? Header
+        {
+            get => header;
+        }
     }
 }

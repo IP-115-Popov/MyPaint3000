@@ -8,5 +8,10 @@ namespace MyPaint3000.ViewModels.Page
 {
     public class EllipseViewModel : ViewModelBase
     {
+        private string? header = "Элипс";
+        public string? Header
+        {
+            get => header;
+        }
     }
 }

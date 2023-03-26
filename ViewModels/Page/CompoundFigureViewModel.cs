@@ -8,5 +8,10 @@ namespace MyPaint3000.ViewModels.Page
 {
     public class CompoundFigureViewModel : ViewModelBase
     {
+        private string? header = "Составная фигура";
+        public string? Header
+        {
+            get => header;
+        }
     }
 }

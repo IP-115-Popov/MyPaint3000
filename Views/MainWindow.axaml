@@ -27,7 +27,13 @@
 		</Grid>
 		<Grid ShowGridLines="True"  Grid.Row="1" ColumnDefinitions="0.5*,*,0.4*">
 			<Grid Grid.Column="0" ColumnDefinitions="*,*" RowDefinitions="0.1*,*,0.1*">
-				<ComboBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Name="comboBoxShape"></ComboBox>
+				<ComboBox SelectedItem="{Binding MyFigure}" Items="{Binding MyFiguresList}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Name="comboBoxShape">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Heder}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 				<ContentControl Content="{Binding MyFigure}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1"/>
 				<Button Grid.Column="0" Grid.Row="2" Name="buttonAdd" Content="Добавить"/>
 				<Button Grid.Column="1" Grid.Row="2" Name="buttonClear" Content="Сброс"/>

@@ -8,5 +8,10 @@ namespace MyPaint3000.ViewModels.Page
 {
     public class PolygonViewModel : ViewModelBase
     {
+        private string? header = "Многоугольник";
+        public string? Header
+        {
+            get => header;
+        }
     }
 }
