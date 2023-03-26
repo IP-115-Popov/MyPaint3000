@@ -10,7 +10,7 @@ namespace MyPaint3000.Models
     public class MyShapesItem
     {
         public string? Name { get; set; }
-        public int? Namber { get; set; }
+        public int Namber { get; set; }
         public MyShapesItem(string Name, int Namber)
         {
             this.Name = Name;

@@ -27,12 +27,7 @@ namespace MyPaint3000.ViewModels.Page
         {
             SelectedColor = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
             ColorList= new ObservableCollection<MyColor?>();
-            //ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) });
-            //ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Purple) });
-            //foreach (System.Drawing.Color color in new ColorConverter().GetStandardValues())
-            //{
-            //    ColorList.Add(new MyColor() { MyBrush = color });
-            //}
+
             PropertyInfo[] colorProps = typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static);
             foreach (PropertyInfo colorProp in colorProps)
             {
@@ -41,9 +36,6 @@ namespace MyPaint3000.ViewModels.Page
                     Color color = (Color)colorProp.GetValue(null, null);
                     string colorName = colorProp.Name;
                     SolidColorBrush brush = new SolidColorBrush(color);
-
-                    //MyColors item = new MyColors() { Brush = brush, Color = colorName };
-                    //solors.Add(item);
                     ColorList.Add(new MyColor() { MyBrush = brush });
                 }
             }

@@ -1,5 +1,6 @@
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
+using DynamicData;
 using MyPaint3000.Models;
 using MyPaint3000.ViewModels.Page;
 using ReactiveUI;
@@ -18,6 +19,7 @@ namespace MyPaint3000.ViewModels
         private ObservableCollection<ViewModelBase> myFiguresList;
         private ObservableCollection<Shape> canvasFigureList;
         private ObservableCollection<MyShapesItem> listBoxShapesList;
+        private MyShapesItem listBoxShapesSelectItem;
 
         BrokenLineViewModel brokenLineViewModel;
         CompoundFigureViewModel compoundFigureViewModel;
@@ -88,6 +90,14 @@ namespace MyPaint3000.ViewModels
                 else if (myFigure is RectangleViewModel) AddRectangle();
                 else if (myFigure is StraightLineViewModel) AddStraightLine();
             });
+            DelItem = ReactiveCommand.Create(() => 
+            {
+                if (ListBoxShapesSelectItem != null)
+                {
+                    CanvasFigureList.RemoveAt(ListBoxShapesSelectItem.Namber);
+                    ListBoxShapesList.RemoveAt(ListBoxShapesSelectItem.Namber);          
+                }            
+            });
         }
 
         public ViewModelBase? MyFigure
@@ -101,6 +111,11 @@ namespace MyPaint3000.ViewModels
                 //}
                 this.RaiseAndSetIfChanged(ref myFigure, value);
             }
+        }
+        private MyShapesItem ListBoxShapesSelectItem
+        {
+            get => listBoxShapesSelectItem;
+            set => this.RaiseAndSetIfChanged(ref listBoxShapesSelectItem, value);
         }
         public ObservableCollection<ViewModelBase>  MyFiguresList
         {
@@ -125,24 +140,23 @@ namespace MyPaint3000.ViewModels
         //public ReactiveCommand<Unit, Unit> AddStraightLine { get; set; }
         public ReactiveCommand<Unit, Unit> AddMyFigure { get; set; }
         public ReactiveCommand<Unit, Unit>? MyClear { get; set; }
+        public ReactiveCommand<Unit, Unit>? DelItem { get; set; }
         private void AddBrokenLine()
         {
             //brokenLineViewModel
-            /*List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
-            string[] words = GetSetPointsBrokenLine.Split(' ');
+            List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
+            string[] words = brokenLineViewModel.MyPoints.Split(' ');
             foreach (string word in words)
             {
                 //0,0 65,0 78,26, 91,39
                 listOfPoints.Add(Avalonia.Point.Parse(word));
             }
             Polyline BLine = new Polyline();
-            BLine.StrokeThickness = GetSetGaugeBrokenLine;
-            BLine.Stroke = mCConture.Brush;
+            BLine.StrokeThickness = brokenLineViewModel.LineSize;
+            BLine.Stroke = brokenLineViewModel.SelectedColor.MyBrush;
             BLine.Points = listOfPoints;
-            Shapes.Add(BLine);
-            CollectionsOfNames.Add(new Figures(name));
-            Numbers.Add(1);
-            Clean();*/
+            CanvasFigureList.Add(BLine);
+            ListBoxShapesList.Add(new MyShapesItem(brokenLineViewModel.Name,listBoxShapesList.Count));
         }
         private void AddCompoundFigure()
         {
@@ -168,7 +182,7 @@ namespace MyPaint3000.ViewModels
             line.StartPoint = Avalonia.Point.Parse(straightLineViewModel.X1Y1);
             line.EndPoint = Avalonia.Point.Parse(straightLineViewModel.X2Y2);
             CanvasFigureList.Add(line);
-            ListBoxShapesList.Add(new MyShapesItem("Aboba", listBoxShapesList.Count));
+            ListBoxShapesList.Add(new MyShapesItem(straightLineViewModel.Name, listBoxShapesList.Count));
         }
     }
 }
