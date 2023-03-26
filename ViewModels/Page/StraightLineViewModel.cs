@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
+using MyPaint3000.Models;
 
 namespace MyPaint3000.ViewModels.Page
 {
@@ -31,5 +33,6 @@ namespace MyPaint3000.ViewModels.Page
             get => x2Y2;
             set => this.RaiseAndSetIfChanged(ref x2Y2, value);
         }
+        public ReactiveCommand<Unit, StraightLine> AddItem;
 }
 }
