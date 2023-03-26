@@ -14,21 +14,25 @@ namespace MyPaint3000.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ViewModelBase myFigure;
+        private ViewModelBase? myFigure;
         private ObservableCollection<ViewModelBase> myFiguresList;
         private ObservableCollection<Shape> canvasFigureList;
+        private ObservableCollection<MyShapesItem> listBoxShapesList;
+
+        BrokenLineViewModel brokenLineViewModel;
+        CompoundFigureViewModel compoundFigureViewModel;
+        EllipseViewModel ellipseViewModel;
+        PolygonViewModel polygonViewModel;
+        RectangleViewModel rectangleViewModel;
+
+        StraightLineViewModel straightLineViewModel;
         public MainWindowViewModel()
         {
             //список фигур для отображения на холсте и в списке фигур
             canvasFigureList = new ObservableCollection<Shape>();
+            listBoxShapesList = new ObservableCollection<MyShapesItem>();
 
-            Line line = new Line();
-            line.Name = "Aboba";
-            line.StrokeThickness = 2;
-            line.Stroke = new SolidColorBrush(Colors.Red);
-            line.StartPoint = Avalonia.Point.Parse("0,0");
-            line.EndPoint = Avalonia.Point.Parse("100,100");
-            CanvasFigureList.Add(line);
+            
             //CollectionsOfNames.Add(new Figures(name));
             //Numbers.Add(0);
             //Clean();
@@ -36,31 +40,63 @@ namespace MyPaint3000.ViewModels
             //первая отображаемая страниуа фигуры
             MyFigure = new StraightLineViewModel();
             //инициализируем фигуры
-            StraightLineViewModel straightLineViewModelnew = new StraightLineViewModel();
+            brokenLineViewModel = new BrokenLineViewModel();
+            compoundFigureViewModel = new CompoundFigureViewModel();
+            ellipseViewModel = new EllipseViewModel();
+            polygonViewModel = new PolygonViewModel();
+            rectangleViewModel = new RectangleViewModel();
+            straightLineViewModel = new StraightLineViewModel();
             //инициализируем массив
             myFiguresList = new ObservableCollection<ViewModelBase>();
-            myFiguresList.Add(new BrokenLineViewModel());
-            myFiguresList.Add(new CompoundFigureViewModel());
-            myFiguresList.Add(new EllipseViewModel());
-            myFiguresList.Add(new PolygonViewModel());
-            myFiguresList.Add(new RectangleViewModel());
-            myFiguresList.Add(straightLineViewModelnew);
-            //инициализируем команды
-            AddStraightLine = ReactiveCommand.Create(() =>
-            {
-                straightLineViewModelnew.AddItem.Subscribe(
-                    (AddFig) =>
-                    {
-                        //AddFig.LineName;
+            myFiguresList.Add(brokenLineViewModel);
+            myFiguresList.Add(compoundFigureViewModel);
+            myFiguresList.Add(ellipseViewModel);
+            myFiguresList.Add(polygonViewModel);
+            myFiguresList.Add(rectangleViewModel);
+            myFiguresList.Add(straightLineViewModel);
 
-                    }
-                    );
+            //инициализируем команды
+            //AddStraightLine = ReactiveCommand.Create(() =>
+            //{
+            //    straightLineViewModel.AddItem.Subscribe(
+            //        (AddFig) =>
+            //        {
+            //            if (AddFig != null)
+            //            {
+            //                Line line = new Line();
+            //                line.StrokeThickness = (double)AddFig.LineSize;
+            //                if (AddFig.SelectedColor != null) line.Stroke = AddFig.SelectedColor.MyBrush;
+            //                line.StartPoint = Avalonia.Point.Parse(AddFig.X1Y1);
+            //                line.EndPoint = Avalonia.Point.Parse(AddFig.X2Y2);
+            //                CanvasFigureList.Add(line);
+            //                ListBoxShapesList.Add(new MyShapesItem("Aboba", listBoxShapesList.Count));
+            //            }                      
+            //        }
+            //        );
+            //});
+            MyClear = ReactiveCommand.Create(() => 
+            {
+                MyFigure = straightLineViewModel;
+            });
+            AddMyFigure = ReactiveCommand.Create(() =>
+            {
+                if (myFigure is StraightLineViewModel)
+                {
+                    AddStraightLine();
+                }
             });
         }
-        public ViewModelBase MyFigure
+        public ViewModelBase? MyFigure
         {
             get => myFigure;
-            set => this.RaiseAndSetIfChanged(ref myFigure, value); 
+            set
+            {
+                //if (value is StraightLineViewModel)
+                //{
+                //    AddMyFigure = AddStraightLine;
+                //}
+                this.RaiseAndSetIfChanged(ref myFigure, value);
+            }
         }
         public ObservableCollection<ViewModelBase>  MyFiguresList
         {
@@ -72,12 +108,48 @@ namespace MyPaint3000.ViewModels
             get => canvasFigureList;
             set => this.RaiseAndSetIfChanged(ref canvasFigureList, value);
         }
-        public ReactiveCommand<Unit, Unit> AddBrokenLine;
-        public ReactiveCommand<Unit, Unit> AddCompoundFigure;
-        public ReactiveCommand<Unit, Unit> AddEllipse;
-        public ReactiveCommand<Unit, Unit> AddPolygon;
-        public ReactiveCommand<Unit, Unit> AddRectangle;
-        public ReactiveCommand<Unit, Unit> AddStraightLine;
-        public ReactiveCommand<Unit, Unit> Clear;
+        public ObservableCollection<MyShapesItem> ListBoxShapesList
+        {
+            get => listBoxShapesList;
+            set => this.RaiseAndSetIfChanged(ref listBoxShapesList, value);
+        }
+        //public ReactiveCommand<Unit, Unit>? AddBrokenLine { get; set; }
+        //public ReactiveCommand<Unit, Unit>? AddCompoundFigure { get; set; }
+        //Ellipse
+        //public ReactiveCommand<Unit, Unit>? AddPolygon { get; set; }
+        //public ReactiveCommand<Unit, Unit>? AddRectangle { get; set; }
+        //public ReactiveCommand<Unit, Unit> AddStraightLine { get; set; }
+        public ReactiveCommand<Unit, Unit> AddMyFigure { get; set; }
+        public ReactiveCommand<Unit, Unit>? MyClear { get; set; }
+        private void AddBrokenLine()
+        {
+
+        }
+        private void AddCompoundFigure()
+        {
+
+        }
+        private void Ellipse()
+        {
+
+        }
+        private void AddPolygon()
+        {
+
+        }
+        private void AddRectangle()
+        {
+
+        }
+        private void AddStraightLine()
+        {
+            Line line = new Line();
+            line.StrokeThickness = (double)straightLineViewModel.LineSize;
+            if (straightLineViewModel.SelectedColor != null) line.Stroke = straightLineViewModel.SelectedColor.MyBrush;
+            line.StartPoint = Avalonia.Point.Parse(straightLineViewModel.X1Y1);
+            line.EndPoint = Avalonia.Point.Parse(straightLineViewModel.X2Y2);
+            CanvasFigureList.Add(line);
+            ListBoxShapesList.Add(new MyShapesItem("Aboba", listBoxShapesList.Count));
+        }
     }
 }

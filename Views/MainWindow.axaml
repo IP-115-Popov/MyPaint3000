@@ -1,9 +1,11 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:MyPaint3000.ViewModels"
+        xmlns:vm="using:MyPaint3000.ViewModels"	
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:localM="clr-namespace:MyPaint3000.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		Width="1000" Height="600"	
         x:Class="MyPaint3000.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="MyPaint3000">
@@ -34,9 +36,9 @@
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<ContentControl Content="{Binding MyFigure}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1"/>
-				<Button Command="{Binding Add}" Grid.Column="0" Grid.Row="2" Name="buttonAdd" Content="Добавить"/>
-				<Button Command="{Binding Clear}" Grid.Column="1" Grid.Row="2" Name="buttonClear" Content="Сброс"/>
+				<ContentControl Content="{Binding MyFigure}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+				<Button Command="{Binding AddMyFigure}" Grid.Column="0" Grid.Row="2" Name="buttonAdd" Content="Добавить"/>
+				<Button Command="{Binding MyClear}" Grid.Column="1" Grid.Row="2" Name="buttonClear" Content="Сброс"/>
 			</Grid>
 			<ItemsControl Items="{Binding CanvasFigureList}" Grid.Column="1">
 				<ItemsControl.ItemsPanel>
@@ -45,8 +47,17 @@
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
-			<ListBox Items="{Binding ShapesFigureList}" Grid.Column="2" Name="listBoxShapes"/>
-		</Grid>
+			<ListBox Items="{Binding ListBoxShapesList}" Grid.Column="2" Name="listBoxShapes">
+				<ListBox.ItemTemplate>
+					<DataTemplate DataType="{x:Type localM:MyShapesItem}">
+						<Grid ColumnDefinitions="*,*">
+							<TextBlock Grid.Column="0" Text="{Binding Name}"/>
+							<Button Grid.Column="1" Content="Del"/>
+						</Grid>				
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+			</Grid>
 	</Grid>
 
 </Window>

@@ -9,7 +9,6 @@ using MyPaint3000.Models;
 using System.Drawing;
 using System.Collections.ObjectModel;
 using Avalonia.Media;
-using MyPaint3000.Models;
 
 namespace MyPaint3000.ViewModels.Page
 {
@@ -20,9 +19,9 @@ namespace MyPaint3000.ViewModels.Page
         private string? lineName;
         private string? x1Y1;
         private string? x2Y2;
-        private int? lineSize;
+        private int lineSize = 1;
         private MyColor? selectedColor;
-        private ObservableCollection<MyColor?> colorList;
+        private ObservableCollection<MyColor?>? colorList;
         public StraightLineViewModel()
         {
             SelectedColor = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red)};
@@ -63,7 +62,7 @@ namespace MyPaint3000.ViewModels.Page
             get => x2Y2;
             set => this.RaiseAndSetIfChanged(ref x2Y2, value);
         }
-        private int? LineSize
+        public int LineSize
         {
             get => lineSize;
             set => this.RaiseAndSetIfChanged(ref lineSize, value);
@@ -73,7 +72,7 @@ namespace MyPaint3000.ViewModels.Page
             get => selectedColor;
             set => this.RaiseAndSetIfChanged(ref selectedColor, value);
         }
-        public ObservableCollection<MyColor?> ColorList
+        public ObservableCollection<MyColor?>? ColorList
         {
             get => colorList;
             set => this.RaiseAndSetIfChanged(ref colorList, value);

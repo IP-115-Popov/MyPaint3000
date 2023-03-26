@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using MyPaint3000.ViewModels;
 
 namespace MyPaint3000.Views
 {
@@ -7,6 +8,7 @@ namespace MyPaint3000.Views
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
     }
 }
