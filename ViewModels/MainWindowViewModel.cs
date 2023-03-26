@@ -13,7 +13,16 @@ namespace MyPaint3000.ViewModels
         private ObservableCollection<ViewModelBase> myFiguresList;
         public MainWindowViewModel()
         {
+            //первая отображаемая страниуа фигуры
             MyFigure = new StraightLineViewModel();
+            //инициализируем массив
+            myFiguresList = new ObservableCollection<ViewModelBase>();
+            myFiguresList.Add(new BrokenLineViewModel());
+            myFiguresList.Add(new CompoundFigureViewModel());
+            myFiguresList.Add(new EllipseViewModel());
+            myFiguresList.Add(new PolygonViewModel());
+            myFiguresList.Add(new RectangleViewModel());
+            myFiguresList.Add(new StraightLineViewModel());
         }
         public ViewModelBase MyFigure
         {
