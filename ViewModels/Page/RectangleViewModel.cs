@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyPaint3000.ViewModels.Page
 {
-    internal class RectangleViewModel
+    public class RectangleViewModel : ViewModelBase
     {
     }
 }
