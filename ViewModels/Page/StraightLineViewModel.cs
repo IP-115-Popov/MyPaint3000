@@ -6,9 +6,10 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using MyPaint3000.Models;
-using System.Drawing;
 using System.Collections.ObjectModel;
 using Avalonia.Media;
+using SkiaSharp;
+using System.Reflection;
 
 namespace MyPaint3000.ViewModels.Page
 {
@@ -16,7 +17,7 @@ namespace MyPaint3000.ViewModels.Page
     {
         private string? header = "Прямая линия";
 
-        private string? lineName;
+        private string? name;
         private string? x1Y1;
         private string? x2Y2;
         private int lineSize = 1;
@@ -24,33 +25,37 @@ namespace MyPaint3000.ViewModels.Page
         private ObservableCollection<MyColor?>? colorList;
         public StraightLineViewModel()
         {
-            SelectedColor = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red)};
+            SelectedColor = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
             ColorList= new ObservableCollection<MyColor?>();
-            ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) });
-            ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Purple) });
-            AddItem = ReactiveCommand.Create<Unit, StraightLineViewModel>((Fig) =>
+            //ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) });
+            //ColorList.Add(new MyColor() { MyBrush = new SolidColorBrush(Colors.Purple) });
+            //foreach (System.Drawing.Color color in new ColorConverter().GetStandardValues())
+            //{
+            //    ColorList.Add(new MyColor() { MyBrush = color });
+            //}
+            PropertyInfo[] colorProps = typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static);
+            foreach (PropertyInfo colorProp in colorProps)
             {
-                StraightLineViewModel rez = new StraightLineViewModel()
+                if (colorProp.PropertyType == typeof(Color))
                 {
-                    lineName = this.lineName,
-                    x1Y1 = this.x1Y1,
-                    x2Y2 = this.x2Y2,
-                    lineSize = this.lineSize,
-                    selectedColor = this.selectedColor
-                };
+                    Color color = (Color)colorProp.GetValue(null, null);
+                    string colorName = colorProp.Name;
+                    SolidColorBrush brush = new SolidColorBrush(color);
 
-                return rez;
+                    //MyColors item = new MyColors() { Brush = brush, Color = colorName };
+                    //solors.Add(item);
+                    ColorList.Add(new MyColor() { MyBrush = brush });
+                }
             }
-            );
         }
         public string? Header
         {
             get => header;
         }
-        public string? LineName
+        public string? Name
         {
-            get => lineName;
-            set => this.RaiseAndSetIfChanged(ref lineName, value);
+            get => name;
+            set => this.RaiseAndSetIfChanged(ref name, value);
         }
         public string? X1Y1
         {
@@ -77,7 +82,6 @@ namespace MyPaint3000.ViewModels.Page
             get => colorList;
             set => this.RaiseAndSetIfChanged(ref colorList, value);
         }
-        public ReactiveCommand<Unit, StraightLineViewModel> AddItem;
 
 }
 }

@@ -80,12 +80,16 @@ namespace MyPaint3000.ViewModels
             });
             AddMyFigure = ReactiveCommand.Create(() =>
             {
-                if (myFigure is StraightLineViewModel)
-                {
-                    AddStraightLine();
-                }
+                
+                if (myFigure is BrokenLineViewModel) AddBrokenLine();
+                else if (myFigure is CompoundFigureViewModel) AddCompoundFigure();
+                else if (myFigure is EllipseViewModel) AddEllipse();
+                else if (myFigure is PolygonViewModel) AddPolygon();
+                else if (myFigure is RectangleViewModel) AddRectangle();
+                else if (myFigure is StraightLineViewModel) AddStraightLine();
             });
         }
+
         public ViewModelBase? MyFigure
         {
             get => myFigure;
@@ -123,13 +127,28 @@ namespace MyPaint3000.ViewModels
         public ReactiveCommand<Unit, Unit>? MyClear { get; set; }
         private void AddBrokenLine()
         {
-
+            //brokenLineViewModel
+            /*List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
+            string[] words = GetSetPointsBrokenLine.Split(' ');
+            foreach (string word in words)
+            {
+                //0,0 65,0 78,26, 91,39
+                listOfPoints.Add(Avalonia.Point.Parse(word));
+            }
+            Polyline BLine = new Polyline();
+            BLine.StrokeThickness = GetSetGaugeBrokenLine;
+            BLine.Stroke = mCConture.Brush;
+            BLine.Points = listOfPoints;
+            Shapes.Add(BLine);
+            CollectionsOfNames.Add(new Figures(name));
+            Numbers.Add(1);
+            Clean();*/
         }
         private void AddCompoundFigure()
         {
 
         }
-        private void Ellipse()
+        private void AddEllipse()
         {
 
         }
