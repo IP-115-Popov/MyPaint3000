@@ -15,13 +15,17 @@ namespace MyPaint3000.ViewModels.Page
     {
         private string? header = "Прямоугольник";
         private string? name;
-
+        private string? x1Y1;
+        private string? myWidth;
+        private string? myHeight;
         private int lineSize = 1;
         private MyColor? selectedColor;
+        private MyColor? selectedColorFill;
         private ObservableCollection<MyColor?>? colorList;
         public RectangleViewModel()
         {
-            SelectedColor = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
+            SelectedColorLine = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
+            SelectedColorFill = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
             ColorList = new ObservableCollection<MyColor?>();
 
             PropertyInfo[] colorProps = typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static);
@@ -41,15 +45,35 @@ namespace MyPaint3000.ViewModels.Page
             get => name;
             set => this.RaiseAndSetIfChanged(ref name, value);
         }
+        public string? X1Y1
+        {
+            get => x1Y1;
+            set => this.RaiseAndSetIfChanged(ref x1Y1, value);
+        }
+        public string? MyWidth
+        {
+            get => myWidth;
+            set => this.RaiseAndSetIfChanged(ref myWidth, value);
+        }
+        public string? MyHeight
+        {
+            get => myHeight;
+            set => this.RaiseAndSetIfChanged(ref myHeight, value);
+        }
         public int LineSize
         {
             get => lineSize;
             set => this.RaiseAndSetIfChanged(ref lineSize, value);
         }
-        public MyColor? SelectedColor
+        public MyColor? SelectedColorLine
         {
             get => selectedColor;
             set => this.RaiseAndSetIfChanged(ref selectedColor, value);
+        }
+        public MyColor? SelectedColorFill
+        {
+            get => selectedColorFill;
+            set => this.RaiseAndSetIfChanged(ref selectedColorFill, value);
         }
         public ObservableCollection<MyColor?>? ColorList
         {

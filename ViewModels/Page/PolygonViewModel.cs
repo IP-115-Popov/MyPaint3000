@@ -15,13 +15,15 @@ namespace MyPaint3000.ViewModels.Page
     {
         private string? header = "Многоугольник";
         private string? name;
-
+        private string? myPoints;
         private int lineSize = 1;
-        private MyColor? selectedColor;
+        private MyColor? selectedColorLine;
+        private MyColor? selectedColorFill;
         private ObservableCollection<MyColor?>? colorList;
         public PolygonViewModel()
         {
-            SelectedColor = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
+            SelectedColorLine = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
+            SelectedColorFill = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
             ColorList = new ObservableCollection<MyColor?>();
 
             PropertyInfo[] colorProps = typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static);
@@ -41,20 +43,30 @@ namespace MyPaint3000.ViewModels.Page
             get => name;
             set => this.RaiseAndSetIfChanged(ref name, value);
         }
+        public string? MyPoints
+        {
+            get => myPoints;
+            set => this.RaiseAndSetIfChanged(ref myPoints, value);
+        }
         public int LineSize
         {
             get => lineSize;
             set => this.RaiseAndSetIfChanged(ref lineSize, value);
         }
-        public MyColor? SelectedColor
+        public MyColor? SelectedColorLine
         {
-            get => selectedColor;
-            set => this.RaiseAndSetIfChanged(ref selectedColor, value);
+            get => selectedColorLine;
+            set => this.RaiseAndSetIfChanged(ref selectedColorLine, value);
         }
         public ObservableCollection<MyColor?>? ColorList
         {
             get => colorList;
             set => this.RaiseAndSetIfChanged(ref colorList, value);
+        }
+        public MyColor? SelectedColorFill
+        {
+            get => selectedColorFill;
+            set => this.RaiseAndSetIfChanged(ref selectedColorFill, value);
         }
         public string? Header
         {

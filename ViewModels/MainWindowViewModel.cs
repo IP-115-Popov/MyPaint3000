@@ -7,6 +7,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Reactive;
 using System.Text;
 using System.Xml.Linq;
@@ -26,7 +27,6 @@ namespace MyPaint3000.ViewModels
         EllipseViewModel ellipseViewModel;
         PolygonViewModel polygonViewModel;
         RectangleViewModel rectangleViewModel;
-
         StraightLineViewModel straightLineViewModel;
         public MainWindowViewModel()
         {
@@ -34,11 +34,6 @@ namespace MyPaint3000.ViewModels
             canvasFigureList = new ObservableCollection<Shape>();
             listBoxShapesList = new ObservableCollection<MyShapesItem>();
 
-            
-            //CollectionsOfNames.Add(new Figures(name));
-            //Numbers.Add(0);
-            //Clean();
-            //CanvasFigureList.Add(new NameShape())
             //перва€ отображаема€ страниуа фигуры
             MyFigure = new StraightLineViewModel();
             //инициализируем фигуры
@@ -57,25 +52,6 @@ namespace MyPaint3000.ViewModels
             myFiguresList.Add(rectangleViewModel);
             myFiguresList.Add(straightLineViewModel);
 
-            //инициализируем команды
-            //AddStraightLine = ReactiveCommand.Create(() =>
-            //{
-            //    straightLineViewModel.AddItem.Subscribe(
-            //        (AddFig) =>
-            //        {
-            //            if (AddFig != null)
-            //            {
-            //                Line line = new Line();
-            //                line.StrokeThickness = (double)AddFig.LineSize;
-            //                if (AddFig.SelectedColor != null) line.Stroke = AddFig.SelectedColor.MyBrush;
-            //                line.StartPoint = Avalonia.Point.Parse(AddFig.X1Y1);
-            //                line.EndPoint = Avalonia.Point.Parse(AddFig.X2Y2);
-            //                CanvasFigureList.Add(line);
-            //                ListBoxShapesList.Add(new MyShapesItem("Aboba", listBoxShapesList.Count));
-            //            }                      
-            //        }
-            //        );
-            //});
             MyClear = ReactiveCommand.Create(() => 
             {
                 MyFigure = straightLineViewModel;
@@ -103,14 +79,8 @@ namespace MyPaint3000.ViewModels
         public ViewModelBase? MyFigure
         {
             get => myFigure;
-            set
-            {
-                //if (value is StraightLineViewModel)
-                //{
-                //    AddMyFigure = AddStraightLine;
-                //}
-                this.RaiseAndSetIfChanged(ref myFigure, value);
-            }
+            set => this.RaiseAndSetIfChanged(ref myFigure, value);
+
         }
         private MyShapesItem ListBoxShapesSelectItem
         {
@@ -132,18 +102,11 @@ namespace MyPaint3000.ViewModels
             get => listBoxShapesList;
             set => this.RaiseAndSetIfChanged(ref listBoxShapesList, value);
         }
-        //public ReactiveCommand<Unit, Unit>? AddBrokenLine { get; set; }
-        //public ReactiveCommand<Unit, Unit>? AddCompoundFigure { get; set; }
-        //Ellipse
-        //public ReactiveCommand<Unit, Unit>? AddPolygon { get; set; }
-        //public ReactiveCommand<Unit, Unit>? AddRectangle { get; set; }
-        //public ReactiveCommand<Unit, Unit> AddStraightLine { get; set; }
         public ReactiveCommand<Unit, Unit> AddMyFigure { get; set; }
         public ReactiveCommand<Unit, Unit>? MyClear { get; set; }
         public ReactiveCommand<Unit, Unit>? DelItem { get; set; }
         private void AddBrokenLine()
         {
-            //brokenLineViewModel
             List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
             string[] words = brokenLineViewModel.MyPoints.Split(' ');
             foreach (string word in words)
@@ -160,19 +123,54 @@ namespace MyPaint3000.ViewModels
         }
         private void AddCompoundFigure()
         {
-
+            //M 0,0 c 0,0 50,0 50,-50 c 0,0 50,0 50,50 h -50 v 50 l -50,50 Z
+            Avalonia.Controls.Shapes.Path path = new Avalonia.Controls.Shapes.Path();
+            path.Data = Geometry.Parse(compoundFigureViewModel.MyPoints);
+            path.Stroke = compoundFigureViewModel.SelectedColorLine.MyBrush;
+            path.StrokeThickness = compoundFigureViewModel.LineSize;
+            path.Fill = compoundFigureViewModel.SelectedColorFill.MyBrush;
+            CanvasFigureList.Add(path);
+            ListBoxShapesList.Add(new MyShapesItem(compoundFigureViewModel.Name, listBoxShapesList.Count));
         }
         private void AddEllipse()
         {
-
+            Ellipse elip = new Ellipse();
+            elip.Width = double.Parse(ellipseViewModel.MyWidth);
+            elip.Height = double.Parse(ellipseViewModel.MyHeight);
+            elip.Stroke = ellipseViewModel.SelectedColorLine.MyBrush;
+            elip.StrokeThickness = ellipseViewModel.LineSize;
+            elip.Margin = Avalonia.Thickness.Parse(ellipseViewModel.X1Y1);
+            elip.Fill = ellipseViewModel.SelectedColorFill.MyBrush;
+            CanvasFigureList.Add(elip);
+            ListBoxShapesList.Add(new MyShapesItem(ellipseViewModel.Name, listBoxShapesList.Count));
         }
         private void AddPolygon()
         {
-
+            List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
+            string[] words = polygonViewModel.MyPoints.Split(' ');
+            foreach (string word in words)
+            {
+                listOfPoints.Add(Avalonia.Point.Parse(word));
+            }
+            Polygon poly = new Polygon();
+            poly.StrokeThickness = polygonViewModel.LineSize;
+            poly.Stroke = polygonViewModel.SelectedColorLine.MyBrush;
+            poly.Points = listOfPoints;
+            poly.Fill = polygonViewModel.SelectedColorFill.MyBrush;
+            CanvasFigureList.Add(poly);
+            ListBoxShapesList.Add(new MyShapesItem(polygonViewModel.Name, listBoxShapesList.Count));
         }
         private void AddRectangle()
         {
-
+            Rectangle rect = new Rectangle();
+            rect.Width = double.Parse(rectangleViewModel.MyWidth);
+            rect.Height = double.Parse(rectangleViewModel.MyHeight);
+            rect.Stroke = rectangleViewModel.SelectedColorLine.MyBrush;
+            rect.StrokeThickness = rectangleViewModel.LineSize;
+            rect.Margin = Avalonia.Thickness.Parse(rectangleViewModel.X1Y1);
+            rect.Fill = rectangleViewModel.SelectedColorFill.MyBrush;
+            CanvasFigureList.Add(rect);
+            ListBoxShapesList.Add(new MyShapesItem(rectangleViewModel.Name, listBoxShapesList.Count));
         }
         private void AddStraightLine()
         {
