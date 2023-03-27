@@ -16,8 +16,8 @@ namespace MyPaint3000.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ViewModelBase? myFigure;
-        private ObservableCollection<ViewModelBase> myFiguresList;
+        private MyFigure? myFigure;
+        private ObservableCollection<MyFigure> myFiguresList;
         private ObservableCollection<Shape> canvasFigureList;
         private Shape listBoxShapesSelectItem;
 
@@ -42,7 +42,7 @@ namespace MyPaint3000.ViewModels
             rectangleViewModel = new RectangleViewModel();
             straightLineViewModel = new StraightLineViewModel();
             //инициализируем массив
-            myFiguresList = new ObservableCollection<ViewModelBase>();
+            myFiguresList = new ObservableCollection<MyFigure>();
             myFiguresList.Add(brokenLineViewModel);
             myFiguresList.Add(compoundFigureViewModel);
             myFiguresList.Add(ellipseViewModel);
@@ -56,7 +56,7 @@ namespace MyPaint3000.ViewModels
             });
             AddMyFigure = ReactiveCommand.Create(() =>
             {
-                
+                //string nameAddItem;
                 if (myFigure is BrokenLineViewModel) AddBrokenLine();
                 else if (myFigure is CompoundFigureViewModel) AddCompoundFigure();
                 else if (myFigure is EllipseViewModel) AddEllipse();
@@ -70,7 +70,7 @@ namespace MyPaint3000.ViewModels
             });
         }
 
-        public ViewModelBase? MyFigure
+        public MyFigure? MyFigure
         {
             get => myFigure;
             set => this.RaiseAndSetIfChanged(ref myFigure, value);
@@ -81,7 +81,7 @@ namespace MyPaint3000.ViewModels
             get => listBoxShapesSelectItem;
             set => this.RaiseAndSetIfChanged(ref listBoxShapesSelectItem, value);
         }
-        public ObservableCollection<ViewModelBase>  MyFiguresList
+        public ObservableCollection<MyFigure>  MyFiguresList
         {
             get => myFiguresList;
             set => this.RaiseAndSetIfChanged(ref myFiguresList, value);
