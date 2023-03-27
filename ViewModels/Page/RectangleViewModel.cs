@@ -11,39 +11,16 @@ using System.Threading.Tasks;
 
 namespace MyPaint3000.ViewModels.Page
 {
-    public class RectangleViewModel : ViewModelBase
+    public class RectangleViewModel : MyFigure
     {
-        private string? header = "Прямоугольник";
-        private string? name;
         private string? x1Y1;
         private string? myWidth;
         private string? myHeight;
-        private int lineSize = 1;
-        private MyColor? selectedColor;
         private MyColor? selectedColorFill;
-        private ObservableCollection<MyColor?>? colorList;
         public RectangleViewModel()
         {
-            SelectedColorLine = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
+            header = "Прямоугольник";
             SelectedColorFill = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
-            ColorList = new ObservableCollection<MyColor?>();
-
-            PropertyInfo[] colorProps = typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static);
-            foreach (PropertyInfo colorProp in colorProps)
-            {
-                if (colorProp.PropertyType == typeof(Color))
-                {
-                    Color color = (Color)colorProp.GetValue(null, null);
-                    string colorName = colorProp.Name;
-                    SolidColorBrush brush = new SolidColorBrush(color);
-                    ColorList.Add(new MyColor() { MyBrush = brush });
-                }
-            }
-        }
-        public string? Name
-        {
-            get => name;
-            set => this.RaiseAndSetIfChanged(ref name, value);
         }
         public string? X1Y1
         {
@@ -60,29 +37,10 @@ namespace MyPaint3000.ViewModels.Page
             get => myHeight;
             set => this.RaiseAndSetIfChanged(ref myHeight, value);
         }
-        public int LineSize
-        {
-            get => lineSize;
-            set => this.RaiseAndSetIfChanged(ref lineSize, value);
-        }
-        public MyColor? SelectedColorLine
-        {
-            get => selectedColor;
-            set => this.RaiseAndSetIfChanged(ref selectedColor, value);
-        }
         public MyColor? SelectedColorFill
         {
             get => selectedColorFill;
             set => this.RaiseAndSetIfChanged(ref selectedColorFill, value);
-        }
-        public ObservableCollection<MyColor?>? ColorList
-        {
-            get => colorList;
-            set => this.RaiseAndSetIfChanged(ref colorList, value);
-        }
-        public string? Header
-        {
-            get => header;
         }
     }
 }

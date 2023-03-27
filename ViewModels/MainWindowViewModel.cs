@@ -116,7 +116,7 @@ namespace MyPaint3000.ViewModels
             }
             Polyline BLine = new Polyline();
             BLine.StrokeThickness = brokenLineViewModel.LineSize;
-            BLine.Stroke = brokenLineViewModel.SelectedColor.MyBrush;
+            BLine.Stroke = brokenLineViewModel.SelectedColorLine.MyBrush;
             BLine.Points = listOfPoints;
             CanvasFigureList.Add(BLine);
             ListBoxShapesList.Add(new MyShapesItem(brokenLineViewModel.Name,listBoxShapesList.Count));
@@ -176,7 +176,7 @@ namespace MyPaint3000.ViewModels
         {
             Line line = new Line();
             line.StrokeThickness = (double)straightLineViewModel.LineSize;
-            if (straightLineViewModel.SelectedColor != null) line.Stroke = straightLineViewModel.SelectedColor.MyBrush;
+            if (straightLineViewModel.SelectedColorLine != null) line.Stroke = straightLineViewModel.SelectedColorLine.MyBrush;
             line.StartPoint = Avalonia.Point.Parse(straightLineViewModel.X1Y1);
             line.EndPoint = Avalonia.Point.Parse(straightLineViewModel.X2Y2);
             CanvasFigureList.Add(line);

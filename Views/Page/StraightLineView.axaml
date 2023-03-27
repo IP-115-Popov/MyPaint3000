@@ -15,7 +15,7 @@
 		<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding X1Y1}"/>
 		<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding X2Y2}"/>
 		<NumericUpDown Grid.Row="4" Grid.Column="1" Minimum="1" Value="{Binding LineSize}" Name="numericUpDownStroke"/>
-		<ComboBox SelectedItem="{Binding SelectedColor}" Items="{Binding ColorList}" Grid.Row="3" Grid.Column="1" >
+		<ComboBox SelectedItem="{Binding SelectedColorLine}" Items="{Binding ColorList}" Grid.Row="3" Grid.Column="1" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<Rectangle Fill="{Binding MyBrush}" Width="30" Height="20"/>
