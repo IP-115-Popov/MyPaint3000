@@ -19,8 +19,7 @@ namespace MyPaint3000.ViewModels
         private ViewModelBase? myFigure;
         private ObservableCollection<ViewModelBase> myFiguresList;
         private ObservableCollection<Shape> canvasFigureList;
-        private ObservableCollection<MyShapesItem> listBoxShapesList;
-        private MyShapesItem listBoxShapesSelectItem;
+        private Shape listBoxShapesSelectItem;
 
         BrokenLineViewModel brokenLineViewModel;
         CompoundFigureViewModel compoundFigureViewModel;
@@ -32,7 +31,6 @@ namespace MyPaint3000.ViewModels
         {
             //список фигур для отображения на холсте и в списке фигур
             canvasFigureList = new ObservableCollection<Shape>();
-            listBoxShapesList = new ObservableCollection<MyShapesItem>();
 
             //первая отображаемая страниуа фигуры
             MyFigure = new StraightLineViewModel();
@@ -66,13 +64,9 @@ namespace MyPaint3000.ViewModels
                 else if (myFigure is RectangleViewModel) AddRectangle();
                 else if (myFigure is StraightLineViewModel) AddStraightLine();
             });
-            DelItem = ReactiveCommand.Create(() => 
+            DelItem = ReactiveCommand.Create<Shape>((returnedMyFigure) => 
             {
-                if (ListBoxShapesSelectItem != null)
-                {
-                    CanvasFigureList.RemoveAt(ListBoxShapesSelectItem.Namber);
-                    ListBoxShapesList.RemoveAt(ListBoxShapesSelectItem.Namber);          
-                }            
+                    CanvasFigureList.Remove(returnedMyFigure);                 
             });
         }
 
@@ -82,7 +76,7 @@ namespace MyPaint3000.ViewModels
             set => this.RaiseAndSetIfChanged(ref myFigure, value);
 
         }
-        private MyShapesItem ListBoxShapesSelectItem
+        private Shape ListBoxShapesSelectItem
         {
             get => listBoxShapesSelectItem;
             set => this.RaiseAndSetIfChanged(ref listBoxShapesSelectItem, value);
@@ -97,14 +91,10 @@ namespace MyPaint3000.ViewModels
             get => canvasFigureList;
             set => this.RaiseAndSetIfChanged(ref canvasFigureList, value);
         }
-        public ObservableCollection<MyShapesItem> ListBoxShapesList
-        {
-            get => listBoxShapesList;
-            set => this.RaiseAndSetIfChanged(ref listBoxShapesList, value);
-        }
+
         public ReactiveCommand<Unit, Unit> AddMyFigure { get; set; }
         public ReactiveCommand<Unit, Unit>? MyClear { get; set; }
-        public ReactiveCommand<Unit, Unit>? DelItem { get; set; }
+        public ReactiveCommand<Shape, Unit>? DelItem { get; set; }
         private void AddBrokenLine()
         {
             List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
@@ -118,8 +108,8 @@ namespace MyPaint3000.ViewModels
             BLine.StrokeThickness = brokenLineViewModel.LineSize;
             BLine.Stroke = brokenLineViewModel.SelectedColorLine.MyBrush;
             BLine.Points = listOfPoints;
-            CanvasFigureList.Add(BLine);
-            ListBoxShapesList.Add(new MyShapesItem(brokenLineViewModel.Name,listBoxShapesList.Count));
+            BLine.Name = brokenLineViewModel.Name;
+            CanvasFigureList.Add(BLine);           
         }
         private void AddCompoundFigure()
         {
@@ -129,8 +119,8 @@ namespace MyPaint3000.ViewModels
             path.Stroke = compoundFigureViewModel.SelectedColorLine.MyBrush;
             path.StrokeThickness = compoundFigureViewModel.LineSize;
             path.Fill = compoundFigureViewModel.SelectedColorFill.MyBrush;
-            CanvasFigureList.Add(path);
-            ListBoxShapesList.Add(new MyShapesItem(compoundFigureViewModel.Name, listBoxShapesList.Count));
+            path.Name = compoundFigureViewModel.Name;
+            CanvasFigureList.Add(path);           
         }
         private void AddEllipse()
         {
@@ -141,8 +131,9 @@ namespace MyPaint3000.ViewModels
             elip.StrokeThickness = ellipseViewModel.LineSize;
             elip.Margin = Avalonia.Thickness.Parse(ellipseViewModel.X1Y1);
             elip.Fill = ellipseViewModel.SelectedColorFill.MyBrush;
+            elip.Name = ellipseViewModel.Name;
             CanvasFigureList.Add(elip);
-            ListBoxShapesList.Add(new MyShapesItem(ellipseViewModel.Name, listBoxShapesList.Count));
+            
         }
         private void AddPolygon()
         {
@@ -157,8 +148,8 @@ namespace MyPaint3000.ViewModels
             poly.Stroke = polygonViewModel.SelectedColorLine.MyBrush;
             poly.Points = listOfPoints;
             poly.Fill = polygonViewModel.SelectedColorFill.MyBrush;
-            CanvasFigureList.Add(poly);
-            ListBoxShapesList.Add(new MyShapesItem(polygonViewModel.Name, listBoxShapesList.Count));
+            poly.Name = polygonViewModel.Name;
+            CanvasFigureList.Add(poly);          
         }
         private void AddRectangle()
         {
@@ -169,8 +160,8 @@ namespace MyPaint3000.ViewModels
             rect.StrokeThickness = rectangleViewModel.LineSize;
             rect.Margin = Avalonia.Thickness.Parse(rectangleViewModel.X1Y1);
             rect.Fill = rectangleViewModel.SelectedColorFill.MyBrush;
-            CanvasFigureList.Add(rect);
-            ListBoxShapesList.Add(new MyShapesItem(rectangleViewModel.Name, listBoxShapesList.Count));
+            rect.Name = rectangleViewModel.Name;
+            CanvasFigureList.Add(rect);   
         }
         private void AddStraightLine()
         {
@@ -179,8 +170,8 @@ namespace MyPaint3000.ViewModels
             if (straightLineViewModel.SelectedColorLine != null) line.Stroke = straightLineViewModel.SelectedColorLine.MyBrush;
             line.StartPoint = Avalonia.Point.Parse(straightLineViewModel.X1Y1);
             line.EndPoint = Avalonia.Point.Parse(straightLineViewModel.X2Y2);
+            line.Name = straightLineViewModel.Name;
             CanvasFigureList.Add(line);
-            ListBoxShapesList.Add(new MyShapesItem(straightLineViewModel.Name, listBoxShapesList.Count));
         }
     }
 }

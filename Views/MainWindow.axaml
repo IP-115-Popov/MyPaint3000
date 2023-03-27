@@ -47,16 +47,17 @@
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
-			<ListBox SelectedItem="{Binding ListBoxShapesSelectItem}" Items="{Binding ListBoxShapesList}" Grid.Column="2" Name="listBoxShapes">
-				<ListBox.ItemTemplate>
-					<DataTemplate DataType="{x:Type localM:MyShapesItem}">
+			<ItemsRepeater Items="{Binding CanvasFigureList}" Grid.Column="2" Name="listBoxShapes">	
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate>
 						<Grid ColumnDefinitions="*,*">
 							<TextBlock Grid.Column="0" Text="{Binding Name}"/>
-							<Button Grid.Column="1" Content="Del" Command="{Binding $parent[Window].DataContext.DelItem}"/>
+							<Button Grid.Column="1" Content="Del" Command="{Binding $parent[Window].DataContext.DelItem}"
+									CommandParameter="{Binding}"/>
 						</Grid>				
 					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
 			</Grid>
 	</Grid>
 
