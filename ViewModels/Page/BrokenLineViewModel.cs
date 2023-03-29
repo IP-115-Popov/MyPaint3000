@@ -23,5 +23,10 @@ namespace MyPaint3000.ViewModels.Page
             get => myPoints;
             set => this.RaiseAndSetIfChanged(ref myPoints, value);
         }
+        public override void SetDefault() 
+        { 
+            base.SetDefault();
+            MyPoints = null;
+        }
     }
 }

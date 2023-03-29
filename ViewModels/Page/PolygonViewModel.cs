@@ -30,5 +30,11 @@ namespace MyPaint3000.ViewModels.Page
             get => selectedColorFill;
             set => this.RaiseAndSetIfChanged(ref selectedColorFill, value);
         }
+        public override void SetDefault()
+        {
+            base.SetDefault();
+            MyPoints = null;
+            SelectedColorFill = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
+        }
     }
 }

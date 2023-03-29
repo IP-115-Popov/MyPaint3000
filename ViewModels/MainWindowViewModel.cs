@@ -52,11 +52,20 @@ namespace MyPaint3000.ViewModels
 
             MyClear = ReactiveCommand.Create(() => 
             {
-                MyFigure = straightLineViewModel;
+                if (myFigure != null) myFigure.SetDefault();
             });
             AddMyFigure = ReactiveCommand.Create(() =>
             {
-                //string nameAddItem;
+                //удаляем элемент с такимже именем
+                string nameAddItem = myFigure.Name;
+                foreach (Shape i in canvasFigureList)
+                {
+                    if (i.Name == nameAddItem)
+                    {
+                        CanvasFigureList.Remove(i);
+                        break;
+                    }
+                }
                 if (myFigure is BrokenLineViewModel) AddBrokenLine();
                 else if (myFigure is CompoundFigureViewModel) AddCompoundFigure();
                 else if (myFigure is EllipseViewModel) AddEllipse();

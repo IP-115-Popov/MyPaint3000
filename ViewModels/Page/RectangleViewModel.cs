@@ -1,4 +1,5 @@
-﻿using Avalonia.Media;
+﻿using Avalonia;
+using Avalonia.Media;
 using MyPaint3000.Models;
 using ReactiveUI;
 using System;
@@ -41,6 +42,14 @@ namespace MyPaint3000.ViewModels.Page
         {
             get => selectedColorFill;
             set => this.RaiseAndSetIfChanged(ref selectedColorFill, value);
+        }
+        public override void SetDefault()
+        {
+            base.SetDefault();
+            X1Y1 = null;
+            MyWidth = null;
+            MyHeight = null;
+            SelectedColorFill = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
         }
     }
 }

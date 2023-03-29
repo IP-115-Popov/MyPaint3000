@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyPaint3000.ViewModels.Page
 {
-    public class MyFigure :  ViewModelBase
+    public abstract class MyFigure :  ViewModelBase
     {
         protected string? header = "Ломаная линия";
 
@@ -59,6 +59,12 @@ namespace MyPaint3000.ViewModels.Page
         public string? Header
         {
             get => header;
+        }
+        public virtual void SetDefault() 
+        {
+            Name = null;
+            LineSize = 1;
+            SelectedColorLine = new MyColor() { MyBrush = new SolidColorBrush(Colors.Red) };
         }
     }
 }

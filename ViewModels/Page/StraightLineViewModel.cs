@@ -31,5 +31,11 @@ namespace MyPaint3000.ViewModels.Page
             get => x2Y2;
             set => this.RaiseAndSetIfChanged(ref x2Y2, value);
         }
-}
+        public override void SetDefault()
+        {
+            base.SetDefault();
+            X1Y1 = null;
+            X2Y2 = null;
+        }
+    }
 }
