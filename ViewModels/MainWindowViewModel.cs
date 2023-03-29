@@ -1,3 +1,4 @@
+using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using DynamicData;
@@ -9,6 +10,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reactive;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Linq;
 
@@ -49,7 +52,32 @@ namespace MyPaint3000.ViewModels
             myFiguresList.Add(polygonViewModel);
             myFiguresList.Add(rectangleViewModel);
             myFiguresList.Add(straightLineViewModel);
+            Export = ReactiveCommand.Create<string>((str) =>
+            { 
+                if (str == "png")
+                {
 
+                } else if (str == "xml")
+                {
+
+                }
+                else if (str == "json")
+                {
+
+                }
+                    
+            });
+            Import = ReactiveCommand.Create<string>(async (str) =>
+            {
+                if (str == "xml")
+                {
+
+                }
+                else if (str == "json")
+                {
+
+                }
+            });
             MyClear = ReactiveCommand.Create(() => 
             {
                 if (myFigure != null) myFigure.SetDefault();
@@ -104,6 +132,40 @@ namespace MyPaint3000.ViewModels
         public ReactiveCommand<Unit, Unit> AddMyFigure { get; set; }
         public ReactiveCommand<Unit, Unit>? MyClear { get; set; }
         public ReactiveCommand<Shape, Unit>? DelItem { get; set; }
+        public ReactiveCommand<string, Unit>? Export { get; set; }
+        public ReactiveCommand<string, Unit>? Import { get; set; }
+        public void Load(string path, string extension)
+        {
+            //load json //CanvasFigureList
+            if (extension == "json")
+            {
+
+            } else if (extension == "xml")
+            {
+
+            }
+        }
+        public void Save(string path, string extension) 
+        {
+            if (extension == "json")
+            {
+                //save to json //CanvasFigureList
+                BinaryFormatter binFormatter = new BinaryFormatter();
+                using (var file = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    binFormatter.Serialize(file, canvasFigureList);
+                }
+            }
+            else if (extension == "xml")
+            {
+
+            }
+            else if (extension == "png")
+            {
+
+            }
+            
+        }
         private void AddBrokenLine()
         {
             List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();

@@ -24,8 +24,20 @@
 
 	<Grid RowDefinitions="0.08*,*">
 		<Grid Grid.Row="0" ColumnDefinitions="0.3*,0.3*,*">
-		    <Button Grid.Column="0" Name="menuExport" Content="Экспортировать"/>
-		    <Button Grid.Column="1" Name="menuImport" Content="Импортировать"/>	
+			<Menu Grid.Column="0">
+				<MenuItem Header="Экспортировать" Name="menuExport">
+					
+					<MenuItem Header="Экспортировать в .xml" Click="OpenFileXml"/>
+					<MenuItem Header="Экспортировать в .json" Click="OpenFileJson"/>
+				</MenuItem>
+			</Menu>
+			<Menu Grid.Column="1">
+				<MenuItem Header="Импортировать" Name="menuImport">
+					<MenuItem Header="Экспортировать в .png" Click="SaveFilePng"/>
+					<MenuItem Header="Импортировать из .xml" Click="SaveFileXml"/>
+					<MenuItem Header="Импортировать из .json" Click="SaveFileJson"/>
+				</MenuItem>
+			</Menu>
 		</Grid>
 		<Grid ShowGridLines="True"  Grid.Row="1" ColumnDefinitions="0.5*,*,0.4*">
 			<Grid Grid.Column="0" ColumnDefinitions="*,*" RowDefinitions="0.1*,*,0.1*">
