@@ -145,24 +145,6 @@ namespace MyPaint3000.ViewModels
                 CanvasListSerialize lol = Newtonsoft.Json.JsonConvert.DeserializeObject<CanvasListSerialize>(file.ReadToEnd());
                 CanvasFigureList = lol.DeSerializeCanvas();
             }
-            //load json //CanvasFigureList
-            //if (extension == "json")
-            //{
-            //        using (StreamReader file = new StreamReader(path))//JsonReader file = new JsonTextReader(sw)
-            //        {
-            //            ObservableCollection<Line> lol = new ObservableCollection<Line>();
-            //            lol = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<Line>>(file.ReadToEnd());
-            //            //canvasFigureList = (ObservableCollection<Shape>)lol;
-            //            canvasFigureList.Clear();
-            //            foreach (Line i in lol)
-            //            {   
-            //                canvasFigureList.Add(i);
-            //            }
-            //        }
-            //} else if (extension == "xml")
-            //{
-
-            //}
         }
         public void Save(string path, string extension) 
         {
