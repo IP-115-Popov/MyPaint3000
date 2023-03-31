@@ -139,24 +139,41 @@ namespace MyPaint3000.ViewModels
         public ReactiveCommand<string, Unit>? Import { get; set; }
         public void Load(string path, string extension)
         {
-            CanvasFigureList.Clear();
-            using (StreamReader file = new StreamReader(path))
+            if (extension == "json")
             {
-                CanvasListSerialize lol = Newtonsoft.Json.JsonConvert.DeserializeObject<CanvasListSerialize>(file.ReadToEnd());
-                CanvasFigureList = lol.DeSerializeCanvas();
+                CanvasFigureList.Clear();
+                using (StreamReader file = new StreamReader(path))
+                {
+                    CanvasListSerialize lol = Newtonsoft.Json.JsonConvert.DeserializeObject<CanvasListSerialize>(file.ReadToEnd());
+                    CanvasFigureList = lol.DeSerializeCanvas();
+                }
+            }
+            else if (extension == "xml")
+            {
+
             }
         }
         public void Save(string path, string extension) 
         {
-            CanvasListSerialize test3 = new CanvasListSerialize();
-            test3.SerializeCanvas(canvasFigureList);
-            string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test3);
-            if (jsonData != null)
+            if (extension == "json")
             {
-                using (StreamWriter file = new StreamWriter(path, false))
+                CanvasListSerialize test3 = new CanvasListSerialize();
+                test3.SerializeCanvas(canvasFigureList);
+                string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test3);
+                if (jsonData != null)
                 {
-                    file.Write(jsonData);
+                    using (StreamWriter file = new StreamWriter(path, false))
+                    {
+                        file.Write(jsonData);
+                    }
                 }
+            }
+            else if (extension == "xml")
+            {
+
+            }
+            else if (extension == "png")
+            {
             }
         }
         private void AddBrokenLine()

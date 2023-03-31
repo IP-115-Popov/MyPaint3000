@@ -4,47 +4,48 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyPaint3000.Models.FigureWrappers
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    [DataContract]
     public class EllipseWrappers : Avalonia.Controls.Shapes.Ellipse
     {
-        [JsonProperty]
+        [DataMember]
         public double StrokeThickness
         {
             get { return GetValue(StrokeThicknessProperty); }
             set { SetValue(StrokeThicknessProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public IBrush? Stroke
         {
             get { return GetValue(StrokeProperty); }
             set { SetValue(StrokeProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public string? Name { get; set; }
-        [JsonProperty]
+        [DataMember]
         public double Width
         {
             get { return GetValue(WidthProperty); }
             set { SetValue(WidthProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public double Height
         {
             get { return GetValue(HeightProperty); }
             set { SetValue(HeightProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public Thickness Margin
         {
             get { return GetValue(MarginProperty); }
             set { SetValue(MarginProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public IBrush? Fill
         {
             get { return GetValue(FillProperty); }

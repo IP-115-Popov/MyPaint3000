@@ -3,39 +3,40 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyPaint3000.Models.FigureWrappers
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    [DataContract]
     public class PathWrappers : Avalonia.Controls.Shapes.Path
     {
-        [JsonProperty]
+        [DataMember]
         public Geometry Data
         {
             get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public IBrush? Fill
         {
             get { return GetValue(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public double StrokeThickness
         {
             get { return GetValue(StrokeThicknessProperty); }
             set { SetValue(StrokeThicknessProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public IBrush? Stroke
         {
             get { return GetValue(StrokeProperty); }
             set { SetValue(StrokeProperty, value); }
         }
-        [JsonProperty]
+        [DataMember]
         public string? Name { get; set; }
     }
 }
