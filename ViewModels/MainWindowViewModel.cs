@@ -160,8 +160,11 @@ namespace MyPaint3000.ViewModels
         }
         public void Save(string path, string extension) 
         {
+            CanvasListSerialize test3 = new CanvasListSerialize();
+            test3.SerializeCanvas(canvasFigureList);
+            string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test3);
             //CanvasListSerialize test1 = new CanvasListSerialize(canvasFigureList);
-            if (extension == "json")
+            /*if (extension == "json")
             {
                 // MySaver mySaver = new MySaver();
                 //mySaver.Save(canvasFigureList, path, extension);
@@ -202,21 +205,22 @@ namespace MyPaint3000.ViewModels
 
 
 
-            /*//CanvasListSerialize test1 = new CanvasListSerialize();
+            /*/
+            //CanvasListSerialize test1 = new CanvasListSerialize();
             //test1.SerializeCanvas(canvasFigureList);
-            if (extension == "json")
+            //if (extension == "json")
+            //{
+            /*string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test1, new Newtonsoft.Json.JsonSerializerSettings
             {
-                 /*string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test1, new Newtonsoft.Json.JsonSerializerSettings
-                 {
-                     DefaultValueHandling = DefaultValueHandling.Ignore
-                 });
-                 if (jsonData != null)
-                 {
-                     using (StreamWriter file = new StreamWriter(path, false))
-                     {
-                         file.Write(jsonData);
-                     }
-                 }*/
+                DefaultValueHandling = DefaultValueHandling.Ignore
+            });
+            if (jsonData != null)
+            {
+                using (StreamWriter file = new StreamWriter(path, false))
+                {
+                    file.Write(jsonData);
+                }
+            }*/
 
             // MySaver mySaver = new MySaver();
             //mySaver.Save(canvasFigureList, path, extension);

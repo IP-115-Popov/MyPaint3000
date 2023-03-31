@@ -1,7 +1,4 @@
 ﻿using Avalonia.Controls.Shapes;
-using DynamicData;
-using DynamicData.Binding;
-using MyPaint3000.Models.FigureWrappers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,7 +11,7 @@ using System.Threading.Tasks;
 namespace MyPaint3000.Models
 {
     [DataContract]
-    public class CanvasListSerialize
+    public class SerializeCanvas2
     {
         private List<Shape> ellipseWrappersList;
         private List<Shape> lineWrappersList;
@@ -22,20 +19,7 @@ namespace MyPaint3000.Models
         private List<Shape> polygonWrappersList;
         private List<Shape> polylineWrappersList;
         private List<Shape> rectangleWrappersList;
-        //сериализуемые свойства
-        [DataMember]
-        public string? jsonEllipseWrappersList { get; set; }
-        [DataMember]
-        public string? jsonLineWrappersList { get; set; }
-        [DataMember]
-        public string? jsonPathWrappersList { get; set; }
-        [DataMember]
-        public string? jsonPolygonWrappersList { get; set; }
-        [DataMember]
-        public string? jsonPolylineWrappersList { get; set; }
-        [DataMember]
-        public string? jsonRectangleWrappersList { get; set; }
-        public CanvasListSerialize()
+        public SerializeCanvas2()
         {
             ellipseWrappersList = new List<Shape>();
             lineWrappersList = new List<Shape>();
@@ -44,44 +28,73 @@ namespace MyPaint3000.Models
             polylineWrappersList = new List<Shape>();
             rectangleWrappersList = new List<Shape>();
         }
-        public void SerializeCanvas(ObservableCollection<Shape> canvasFigureList) 
-        { 
-            foreach (Shape i in canvasFigureList) 
+        //сериализуемые свойства
+        [DataMember]
+        public List<Shape> EllipseWrappersList 
+        {
+            get => ellipseWrappersList;
+            set { ellipseWrappersList = value; }
+        }
+        [DataMember]
+        public List<Shape> LineWrappersList
+        {
+            get => lineWrappersList;
+            set { lineWrappersList = value; }
+        }
+        [DataMember]
+        public List<Shape> PathWrappersList
+        {
+            get => pathWrappersList;
+            set { pathWrappersList = value; }
+        }
+        [DataMember]
+        public List<Shape> PolygonWrappersList
+        {
+            get => polygonWrappersList;
+            set { polygonWrappersList = value; }
+        }
+        [DataMember]
+        public List<Shape> PolylineWrappersList
+        {
+            get => polylineWrappersList;
+            set { polylineWrappersList = value; }
+        }
+        [DataMember]
+        public List<Shape> RectangleWrappersList
+        {
+            get => rectangleWrappersList;
+            set { rectangleWrappersList = value; }
+        }
+        public void SerializeCanvas(ObservableCollection<Shape> canvasFigureList)
+        {
+            foreach (Shape i in canvasFigureList)
             {
                 if (i is Ellipse)
                 {
                     ellipseWrappersList.Add(i);
-                } else if(i is Line)
+                }
+                else if (i is Line)
                 {
                     lineWrappersList.Add(i);
-                } else if (i is Path)
+                }
+                else if (i is Path)
                 {
                     pathWrappersList.Add(i);
-                } else if (i is Polygon)
+                }
+                else if (i is Polygon)
                 {
                     polygonWrappersList.Add(i);
                 }
                 else if (i is Polyline)
                 {
                     polylineWrappersList.Add(i);
+
                 }
                 else if (i is Rectangle)
                 {
                     rectangleWrappersList.Add(i);
                 }
             }
-            jsonEllipseWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(ellipseWrappersList);
-            jsonLineWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(lineWrappersList);
-            jsonPathWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(pathWrappersList);
-            jsonPolygonWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(polygonWrappersList);
-            jsonPolylineWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(polylineWrappersList, new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-            jsonRectangleWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(rectangleWrappersList, new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
         }
         public ObservableCollection<Shape> DeSerializeCanvas()
         {
