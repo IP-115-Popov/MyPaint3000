@@ -17,12 +17,12 @@ namespace MyPaint3000.Models
     [DataContract]
     public class CanvasListSerialize
     {
-        private List<Shape> ellipseWrappersList;
-        private List<Shape> lineWrappersList;
-        private List<Shape> pathWrappersList;
-        private List<Shape> polygonWrappersList;
-        private List<Shape> polylineWrappersList;
-        private List<Shape> rectangleWrappersList;
+        private List<EllipseWrappers> ellipseWrappersList;
+        private List<LineWrappers> lineWrappersList;
+        private List<PathWrappers> pathWrappersList;
+        private List<PolygonWrappers> polygonWrappersList;
+        private List<PolylineWrappers> polylineWrappersList;
+        private List<RectangleWrappers> rectangleWrappersList;
         //сериализуемые свойства
         [DataMember]
         public string? jsonEllipseWrappersList { get; set; }
@@ -38,12 +38,12 @@ namespace MyPaint3000.Models
         public string? jsonRectangleWrappersList { get; set; }
         public CanvasListSerialize()
         {
-            ellipseWrappersList = new List<Shape>();
-            lineWrappersList = new List<Shape>();
-            pathWrappersList = new List<Shape>();
-            polygonWrappersList = new List<Shape>();
-            polylineWrappersList = new List<Shape>();
-            rectangleWrappersList = new List<Shape>();
+            ellipseWrappersList = new List<EllipseWrappers>();
+            lineWrappersList = new List<LineWrappers>();
+            pathWrappersList = new List<PathWrappers>();
+            polygonWrappersList = new List<PolygonWrappers>();
+            polylineWrappersList = new List<PolylineWrappers>();
+            rectangleWrappersList = new List<RectangleWrappers>();
         }
         public void SerializeCanvas(ObservableCollection<Shape> canvasFigureList) 
         { 
@@ -51,24 +51,24 @@ namespace MyPaint3000.Models
             {
                 if (i is Ellipse)
                 {
-                    ellipseWrappersList.Add(i);
+                    ellipseWrappersList.Add((EllipseWrappers)i);
                 } else if(i is Line)
                 {
-                    lineWrappersList.Add(i);
+                    lineWrappersList.Add((LineWrappers)i);
                 } else if (i is Avalonia.Controls.Shapes.Path)
                 {
-                    pathWrappersList.Add(i);
+                    pathWrappersList.Add((PathWrappers)i);
                 } else if (i is Polygon)
                 {
-                    polygonWrappersList.Add(i);
+                    polygonWrappersList.Add((PolygonWrappers)i);
                 }
                 else if (i is Polyline)
                 {
-                    polylineWrappersList.Add(i);
+                    polylineWrappersList.Add((PolylineWrappers)i);
                 }
                 else if (i is Avalonia.Controls.Shapes.Rectangle)
                 {
-                    rectangleWrappersList.Add(i);
+                    rectangleWrappersList.Add((RectangleWrappers)i);
                 }
             }
             jsonEllipseWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(ellipseWrappersList);
@@ -88,58 +88,58 @@ namespace MyPaint3000.Models
         {
             ObservableCollection<Shape> rez = new ObservableCollection<Shape>();
             //распоковка json строк
-            List<Ellipse> ellipseWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Ellipse>>(jsonEllipseWrappersList);
-            foreach (Ellipse i in ellipseWrappersListBuff)
+            List<EllipseWrappers> ellipseWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<EllipseWrappers>>(jsonEllipseWrappersList);
+            foreach (EllipseWrappers i in ellipseWrappersListBuff)
+            {
+                ellipseWrappersList.Add(i);
+            }
+            List<LineWrappers> lineWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<LineWrappers>>(jsonLineWrappersList);
+            foreach (LineWrappers i in lineWrappersListBuff)
             {
                 lineWrappersList.Add(i);
             }
-            List<Line> lineWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Line>>(jsonLineWrappersList);
-            foreach (Line i in lineWrappersListBuff)
+            List<PathWrappers> pathWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PathWrappers>>(jsonPathWrappersList);
+            foreach (PathWrappers i in pathWrappersListBuff)
             {
-                lineWrappersList.Add(i);
+                pathWrappersList.Add(i);
             }
-            List<Avalonia.Controls.Shapes.Path> pathWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Avalonia.Controls.Shapes.Path>>(jsonPathWrappersList);
-            foreach (Avalonia.Controls.Shapes.Path i in pathWrappersListBuff)
+            List<PolygonWrappers> polygonWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PolygonWrappers>>(jsonPolygonWrappersList);
+            foreach (PolygonWrappers i in polygonWrappersListBuff)
             {
-                lineWrappersList.Add(i);
+                polygonWrappersList.Add(i);
             }
-            List<Polygon> polygonWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Polygon>>(jsonPolygonWrappersList);
-            foreach (Polygon i in polygonWrappersListBuff)
+            List<PolylineWrappers> polylineWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PolylineWrappers>>(jsonPolylineWrappersList);
+            foreach (PolylineWrappers i in polylineWrappersListBuff)
             {
-                lineWrappersList.Add(i);
+                polylineWrappersList.Add(i);
             }
-            List<Polyline> polylineWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Polyline>>(jsonPolylineWrappersList);
-            foreach (Polyline i in polylineWrappersListBuff)
+            List<RectangleWrappers> rectangleWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<RectangleWrappers>>(jsonRectangleWrappersList);
+            foreach (RectangleWrappers i in rectangleWrappersListBuff)
             {
-                lineWrappersList.Add(i);
-            }
-            List<Avalonia.Controls.Shapes.Rectangle> rectangleWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Avalonia.Controls.Shapes.Rectangle>>(jsonRectangleWrappersList);
-            foreach (Avalonia.Controls.Shapes.Rectangle i in rectangleWrappersListBuff)
-            {
-                lineWrappersList.Add(i);
+                rectangleWrappersList.Add(i);
             }
             //заплнение результата из массивов
-            foreach (Shape i in ellipseWrappersList)
+            foreach (EllipseWrappers i in ellipseWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (Shape i in lineWrappersList)
+            foreach (LineWrappers i in lineWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (Shape i in pathWrappersList)
+            foreach (PathWrappers i in pathWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (Shape i in polygonWrappersList)
+            foreach (PolygonWrappers i in polygonWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (Shape i in polylineWrappersList)
+            foreach (PolylineWrappers i in polylineWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (Shape i in rectangleWrappersList)
+            foreach (RectangleWrappers i in rectangleWrappersList)
             {
                 rez.Add(i);
             }
