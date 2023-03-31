@@ -3,7 +3,9 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using DynamicData;
 using MyPaint3000.Models;
+using MyPaint3000.Models.FigureWrappers;
 using MyPaint3000.ViewModels.Page;
+using Newtonsoft.Json;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,8 @@ using System.Reactive;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 namespace MyPaint3000.ViewModels
@@ -75,7 +79,7 @@ namespace MyPaint3000.ViewModels
                 }
                 else if (str == "json")
                 {
-
+                    
                 }
             });
             MyClear = ReactiveCommand.Create(() => 
@@ -139,22 +143,57 @@ namespace MyPaint3000.ViewModels
             //load json //CanvasFigureList
             if (extension == "json")
             {
-
+                    using (StreamReader file = new StreamReader(path))//JsonReader file = new JsonTextReader(sw)
+                    {
+                        ObservableCollection<Line> lol = new ObservableCollection<Line>();
+                        lol = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<Line>>(file.ReadToEnd());
+                        //canvasFigureList = (ObservableCollection<Shape>)lol;
+                        canvasFigureList.Clear();
+                        foreach (Line i in lol)
+                        {   
+                            canvasFigureList.Add(i);
+                        }
+                    }
             } else if (extension == "xml")
             {
-
+               
             }
         }
         public void Save(string path, string extension) 
         {
+            CanvasListSerialize test1 = new CanvasListSerialize(canvasFigureList);
             if (extension == "json")
             {
-                //save to json //CanvasFigureList
-                BinaryFormatter binFormatter = new BinaryFormatter();
-                using (var file = new FileStream(path, FileMode.OpenOrCreate))
+                // MySaver mySaver = new MySaver();
+                //mySaver.Save(canvasFigureList, path, extension);
+                string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(canvasFigureList, new JsonSerializerSettings
                 {
-                    binFormatter.Serialize(file, canvasFigureList);
+                    DefaultValueHandling = DefaultValueHandling.Ignore
+                });
+                //, new JsonSerializerOptions
+                //{
+                //    // DefaultIgnoreCondition = JsonIgnoreCondition.Always
+                //    ///DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, //игнорировать все null
+                //    IgnoreReadOnlyProperties = true,
+                //    WriteIndented = true,
+                //    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault //игнорировать все сыоиства со значениями по умолчанию и nul
+                //    //IgnoreNullValues = true,
+                //    //IgnoreReadOnlyFields = true,
+
+                //});
+                if (jsonData != null)
+                {
+                    using (StreamWriter file = new StreamWriter(path, false))
+                    {
+                        file.Write(jsonData);
+                    }
                 }
+                ////save to json //CanvasFigureList
+                ////BinaryFormatter binFormatter = new BinaryFormatter();
+                ////using (var file = new FileStream(path, FileMode.OpenOrCreate))
+                ////{
+                ////    binFormatter.Serialize(file, canvasFigureList);
+                ////}
             }
             else if (extension == "xml")
             {
@@ -175,7 +214,7 @@ namespace MyPaint3000.ViewModels
                 //0,0 65,0 78,26, 91,39
                 listOfPoints.Add(Avalonia.Point.Parse(word));
             }
-            Polyline BLine = new Polyline();
+            PolylineWrappers BLine = new PolylineWrappers();
             BLine.StrokeThickness = brokenLineViewModel.LineSize;
             BLine.Stroke = brokenLineViewModel.SelectedColorLine.MyBrush;
             BLine.Points = listOfPoints;
@@ -185,7 +224,7 @@ namespace MyPaint3000.ViewModels
         private void AddCompoundFigure()
         {
             //M 0,0 c 0,0 50,0 50,-50 c 0,0 50,0 50,50 h -50 v 50 l -50,50 Z
-            Avalonia.Controls.Shapes.Path path = new Avalonia.Controls.Shapes.Path();
+            PathWrappers path = new PathWrappers();
             path.Data = Geometry.Parse(compoundFigureViewModel.MyPoints);
             path.Stroke = compoundFigureViewModel.SelectedColorLine.MyBrush;
             path.StrokeThickness = compoundFigureViewModel.LineSize;
@@ -195,7 +234,7 @@ namespace MyPaint3000.ViewModels
         }
         private void AddEllipse()
         {
-            Ellipse elip = new Ellipse();
+            EllipseWrappers elip = new EllipseWrappers();
             elip.Width = double.Parse(ellipseViewModel.MyWidth);
             elip.Height = double.Parse(ellipseViewModel.MyHeight);
             elip.Stroke = ellipseViewModel.SelectedColorLine.MyBrush;
@@ -214,7 +253,7 @@ namespace MyPaint3000.ViewModels
             {
                 listOfPoints.Add(Avalonia.Point.Parse(word));
             }
-            Polygon poly = new Polygon();
+            PolygonWrappers poly = new PolygonWrappers();
             poly.StrokeThickness = polygonViewModel.LineSize;
             poly.Stroke = polygonViewModel.SelectedColorLine.MyBrush;
             poly.Points = listOfPoints;
@@ -224,7 +263,7 @@ namespace MyPaint3000.ViewModels
         }
         private void AddRectangle()
         {
-            Rectangle rect = new Rectangle();
+            RectangleWrappers rect = new RectangleWrappers();
             rect.Width = double.Parse(rectangleViewModel.MyWidth);
             rect.Height = double.Parse(rectangleViewModel.MyHeight);
             rect.Stroke = rectangleViewModel.SelectedColorLine.MyBrush;
@@ -236,7 +275,7 @@ namespace MyPaint3000.ViewModels
         }
         private void AddStraightLine()
         {
-            Line line = new Line();
+            LineWrappers line = new LineWrappers();
             line.StrokeThickness = (double)straightLineViewModel.LineSize;
             if (straightLineViewModel.SelectedColorLine != null) line.Stroke = straightLineViewModel.SelectedColorLine.MyBrush;
             line.StartPoint = Avalonia.Point.Parse(straightLineViewModel.X1Y1);

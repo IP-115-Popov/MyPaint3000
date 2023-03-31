@@ -27,15 +27,15 @@
 			<Menu Grid.Column="0">
 				<MenuItem Header="Экспортировать" Name="menuExport">
 					
-					<MenuItem Header="Экспортировать в .xml" Click="OpenFileXml"/>
-					<MenuItem Header="Экспортировать в .json" Click="OpenFileJson"/>
+					<MenuItem Header="Экспортировать из .xml" Click="OpenFileXml"/>
+					<MenuItem Header="Экспортировать из .json" Click="OpenFileJson"/>
 				</MenuItem>
 			</Menu>
 			<Menu Grid.Column="1">
 				<MenuItem Header="Импортировать" Name="menuImport">
 					<MenuItem Header="Экспортировать в .png" Click="SaveFilePng"/>
-					<MenuItem Header="Импортировать из .xml" Click="SaveFileXml"/>
-					<MenuItem Header="Импортировать из .json" Click="SaveFileJson"/>
+					<MenuItem Header="Импортировать в .xml" Click="SaveFileXml"/>
+					<MenuItem Header="Импортировать в .json" Click="SaveFileJson"/>
 				</MenuItem>
 			</Menu>
 		</Grid>
