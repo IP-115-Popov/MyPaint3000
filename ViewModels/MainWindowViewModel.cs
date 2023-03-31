@@ -1,4 +1,4 @@
-using Avalonia.Controls;
+п»їusing Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using DynamicData;
@@ -15,7 +15,6 @@ using System.Reactive;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
@@ -36,19 +35,19 @@ namespace MyPaint3000.ViewModels
         StraightLineViewModel straightLineViewModel;
         public MainWindowViewModel()
         {
-            //список фигур для отображения на холсте и в списке фигур
+            //СЃРїРёСЃРѕРє С„РёРіСѓСЂ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РЅР° С…РѕР»СЃС‚Рµ Рё РІ СЃРїРёСЃРєРµ С„РёРіСѓСЂ
             canvasFigureList = new ObservableCollection<Shape>();
 
-            //первая отображаемая страниуа фигуры
+            //РїРµСЂРІР°СЏ РѕС‚РѕР±СЂР°Р¶Р°РµРјР°СЏ СЃС‚СЂР°РЅРёСѓР° С„РёРіСѓСЂС‹
             MyFigure = new StraightLineViewModel();
-            //инициализируем фигуры
+            //РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј С„РёРіСѓСЂС‹
             brokenLineViewModel = new BrokenLineViewModel();
             compoundFigureViewModel = new CompoundFigureViewModel();
             ellipseViewModel = new EllipseViewModel();
             polygonViewModel = new PolygonViewModel();
             rectangleViewModel = new RectangleViewModel();
             straightLineViewModel = new StraightLineViewModel();
-            //инициализируем массив
+            //РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РјР°СЃСЃРёРІ
             myFiguresList = new ObservableCollection<MyFigure>();
             myFiguresList.Add(brokenLineViewModel);
             myFiguresList.Add(compoundFigureViewModel);
@@ -88,7 +87,7 @@ namespace MyPaint3000.ViewModels
             });
             AddMyFigure = ReactiveCommand.Create(() =>
             {
-                //удаляем элемент с такимже именем
+                //СѓРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ СЃ С‚Р°РєРёРјР¶Рµ РёРјРµРЅРµРј
                 string nameAddItem = myFigure.Name;
                 foreach (Shape i in canvasFigureList)
                 {
@@ -161,22 +160,19 @@ namespace MyPaint3000.ViewModels
         }
         public void Save(string path, string extension) 
         {
-            CanvasListSerialize test1 = new CanvasListSerialize(canvasFigureList);
+            //CanvasListSerialize test1 = new CanvasListSerialize(canvasFigureList);
             if (extension == "json")
             {
                 // MySaver mySaver = new MySaver();
                 //mySaver.Save(canvasFigureList, path, extension);
-                string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(canvasFigureList, new JsonSerializerSettings
-                {
-                    DefaultValueHandling = DefaultValueHandling.Ignore
-                });
+                string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(canvasFigureList);
                 //, new JsonSerializerOptions
                 //{
                 //    // DefaultIgnoreCondition = JsonIgnoreCondition.Always
-                //    ///DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, //игнорировать все null
+                //    ///DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, //ГЁГЈГ­Г®Г°ГЁГ°Г®ГўГ ГІГј ГўГ±ГҐ null
                 //    IgnoreReadOnlyProperties = true,
                 //    WriteIndented = true,
-                //    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault //игнорировать все сыоиства со значениями по умолчанию и nul
+                //    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault //ГЁГЈГ­Г®Г°ГЁГ°Г®ГўГ ГІГј ГўГ±ГҐ Г±Г»Г®ГЁГ±ГІГўГ  Г±Г® Г§Г­Г Г·ГҐГ­ГЁГїГ¬ГЁ ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ ГЁ nul
                 //    //IgnoreNullValues = true,
                 //    //IgnoreReadOnlyFields = true,
 
@@ -203,7 +199,49 @@ namespace MyPaint3000.ViewModels
             {
 
             }
-            
+
+
+
+            /*//CanvasListSerialize test1 = new CanvasListSerialize();
+            //test1.SerializeCanvas(canvasFigureList);
+            if (extension == "json")
+            {
+                 /*string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test1, new Newtonsoft.Json.JsonSerializerSettings
+                 {
+                     DefaultValueHandling = DefaultValueHandling.Ignore
+                 });
+                 if (jsonData != null)
+                 {
+                     using (StreamWriter file = new StreamWriter(path, false))
+                     {
+                         file.Write(jsonData);
+                     }
+                 }*/
+
+            // MySaver mySaver = new MySaver();
+            //mySaver.Save(canvasFigureList, path, extension);
+            /*string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(canvasFigureList, new JsonSerializerSettings
+            {
+                DefaultValueHandling = DefaultValueHandling.Ignore
+            });
+            if (jsonData != null)
+            {
+                using (StreamWriter file = new StreamWriter(path, false))
+                {
+                    file.Write(jsonData);
+                }
+            }
+
+        }
+            else if (extension == "xml")
+            {
+
+            }
+            else if (extension == "png")
+            {
+
+            }*/
+
         }
         private void AddBrokenLine()
         {
