@@ -46,6 +46,12 @@ namespace MyPaint3000.Models.FigureWrappers
             set { SetValue(MarginProperty, value); }
         }
         [DataMember]
+        public string MarginText
+        {
+            get;
+            set;
+        }
+        [DataMember]
         public IBrush? Fill
         {
             get { return GetValue(FillProperty); }

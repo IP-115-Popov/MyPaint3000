@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls.Shapes;
+using Avalonia.Media;
 using DynamicData;
 using DynamicData.Binding;
 using MyPaint3000.Models.FigureWrappers;
+using MyPaint3000.ViewModels.Page;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -73,7 +75,14 @@ namespace MyPaint3000.Models
             }
             jsonEllipseWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(ellipseWrappersList);
             jsonLineWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(lineWrappersList);
-            jsonPathWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(pathWrappersList);
+            jsonPathWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(pathWrappersList, 
+                new JsonSerializerSettings() 
+                {
+                    TypeNameHandling = TypeNameHandling.All,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    Formatting = Newtonsoft.Json.Formatting.Indented,
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
             jsonPolygonWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(polygonWrappersList);
             jsonPolylineWrappersList = Newtonsoft.Json.JsonConvert.SerializeObject(polylineWrappersList, new JsonSerializerSettings
             {
@@ -98,7 +107,14 @@ namespace MyPaint3000.Models
             {
                 lineWrappersList.Add(i);
             }
-            List<PathWrappers> pathWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PathWrappers>>(jsonPathWrappersList);
+            List<PathWrappers> pathWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PathWrappers>>(jsonPathWrappersList,
+                new JsonSerializerSettings()
+                {
+                    TypeNameHandling = TypeNameHandling.All,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    Formatting = Newtonsoft.Json.Formatting.Indented,
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
             foreach (PathWrappers i in pathWrappersListBuff)
             {
                 pathWrappersList.Add(i);
@@ -116,11 +132,13 @@ namespace MyPaint3000.Models
             List<RectangleWrappers> rectangleWrappersListBuff = Newtonsoft.Json.JsonConvert.DeserializeObject<List<RectangleWrappers>>(jsonRectangleWrappersList);
             foreach (RectangleWrappers i in rectangleWrappersListBuff)
             {
+                i.Margin = Avalonia.Thickness.Parse(i.MarginText);
                 rectangleWrappersList.Add(i);
             }
             //заплнение результата из массивов
             foreach (EllipseWrappers i in ellipseWrappersList)
             {
+                i.Margin = Avalonia.Thickness.Parse(i.MarginText);
                 rez.Add(i);
             }
             foreach (LineWrappers i in lineWrappersList)
@@ -129,6 +147,7 @@ namespace MyPaint3000.Models
             }
             foreach (PathWrappers i in pathWrappersList)
             {
+                i.Data = Geometry.Parse(i.DataText);
                 rez.Add(i);
             }
             foreach (PolygonWrappers i in polygonWrappersList)

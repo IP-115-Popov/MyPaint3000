@@ -196,6 +196,7 @@ namespace MyPaint3000.ViewModels
         {
             //M 0,0 c 0,0 50,0 50,-50 c 0,0 50,0 50,50 h -50 v 50 l -50,50 Z
             PathWrappers path = new PathWrappers();
+            path.DataText = compoundFigureViewModel.MyPoints;
             path.Data = Geometry.Parse(compoundFigureViewModel.MyPoints);
             path.Stroke = compoundFigureViewModel.SelectedColorLine.MyBrush;
             path.StrokeThickness = compoundFigureViewModel.LineSize;
@@ -211,6 +212,7 @@ namespace MyPaint3000.ViewModels
             elip.Stroke = ellipseViewModel.SelectedColorLine.MyBrush;
             elip.StrokeThickness = ellipseViewModel.LineSize;
             elip.Margin = Avalonia.Thickness.Parse(ellipseViewModel.X1Y1);
+            elip.MarginText = ellipseViewModel.X1Y1;
             elip.Fill = ellipseViewModel.SelectedColorFill.MyBrush;
             elip.Name = ellipseViewModel.Name;
             CanvasFigureList.Add(elip);
@@ -240,6 +242,7 @@ namespace MyPaint3000.ViewModels
             rect.Stroke = rectangleViewModel.SelectedColorLine.MyBrush;
             rect.StrokeThickness = rectangleViewModel.LineSize;
             rect.Margin = Avalonia.Thickness.Parse(rectangleViewModel.X1Y1);
+            rect.MarginText = rectangleViewModel.X1Y1;
             rect.Fill = rectangleViewModel.SelectedColorFill.MyBrush;
             rect.Name = rectangleViewModel.Name;
             CanvasFigureList.Add(rect);   

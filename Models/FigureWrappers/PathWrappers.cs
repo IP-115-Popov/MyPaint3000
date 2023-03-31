@@ -1,5 +1,6 @@
 ﻿using Avalonia.Media;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,16 @@ namespace MyPaint3000.Models.FigureWrappers
     public class PathWrappers : Avalonia.Controls.Shapes.Path
     {
         [DataMember]
+        public string DataText
+        {
+            get;
+            set;
+        }
+        [DataMember]
         public Geometry Data
         {
             get { return GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            set { SetValue(DataProperty, value);  }
         }
         [DataMember]
         public IBrush? Fill
