@@ -139,95 +139,36 @@ namespace MyPaint3000.ViewModels
         public ReactiveCommand<string, Unit>? Import { get; set; }
         public void Load(string path, string extension)
         {
-            //load json //CanvasFigureList
-            if (extension == "json")
+            CanvasFigureList.Clear();
+            using (StreamReader file = new StreamReader(path))
             {
-                    using (StreamReader file = new StreamReader(path))//JsonReader file = new JsonTextReader(sw)
-                    {
-                        ObservableCollection<Line> lol = new ObservableCollection<Line>();
-                        lol = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<Line>>(file.ReadToEnd());
-                        //canvasFigureList = (ObservableCollection<Shape>)lol;
-                        canvasFigureList.Clear();
-                        foreach (Line i in lol)
-                        {   
-                            canvasFigureList.Add(i);
-                        }
-                    }
-            } else if (extension == "xml")
-            {
-               
+                CanvasListSerialize lol = Newtonsoft.Json.JsonConvert.DeserializeObject<CanvasListSerialize>(file.ReadToEnd());
+                CanvasFigureList = lol.DeSerializeCanvas();
             }
+            //load json //CanvasFigureList
+            //if (extension == "json")
+            //{
+            //        using (StreamReader file = new StreamReader(path))//JsonReader file = new JsonTextReader(sw)
+            //        {
+            //            ObservableCollection<Line> lol = new ObservableCollection<Line>();
+            //            lol = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<Line>>(file.ReadToEnd());
+            //            //canvasFigureList = (ObservableCollection<Shape>)lol;
+            //            canvasFigureList.Clear();
+            //            foreach (Line i in lol)
+            //            {   
+            //                canvasFigureList.Add(i);
+            //            }
+            //        }
+            //} else if (extension == "xml")
+            //{
+
+            //}
         }
         public void Save(string path, string extension) 
         {
             CanvasListSerialize test3 = new CanvasListSerialize();
             test3.SerializeCanvas(canvasFigureList);
             string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test3);
-            //CanvasListSerialize test1 = new CanvasListSerialize(canvasFigureList);
-            /*if (extension == "json")
-            {
-                // MySaver mySaver = new MySaver();
-                //mySaver.Save(canvasFigureList, path, extension);
-                string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(canvasFigureList);
-                //, new JsonSerializerOptions
-                //{
-                //    // DefaultIgnoreCondition = JsonIgnoreCondition.Always
-                //    ///DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, //èãíîðèðîâàòü âñå null
-                //    IgnoreReadOnlyProperties = true,
-                //    WriteIndented = true,
-                //    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault //èãíîðèðîâàòü âñå ñûîèñòâà ñî çíà÷åíèÿìè ïî óìîë÷àíèþ è nul
-                //    //IgnoreNullValues = true,
-                //    //IgnoreReadOnlyFields = true,
-
-                //});
-                if (jsonData != null)
-                {
-                    using (StreamWriter file = new StreamWriter(path, false))
-                    {
-                        file.Write(jsonData);
-                    }
-                }
-                ////save to json //CanvasFigureList
-                ////BinaryFormatter binFormatter = new BinaryFormatter();
-                ////using (var file = new FileStream(path, FileMode.OpenOrCreate))
-                ////{
-                ////    binFormatter.Serialize(file, canvasFigureList);
-                ////}
-            }
-            else if (extension == "xml")
-            {
-
-            }
-            else if (extension == "png")
-            {
-
-            }
-
-
-
-            /*/
-            //CanvasListSerialize test1 = new CanvasListSerialize();
-            //test1.SerializeCanvas(canvasFigureList);
-            //if (extension == "json")
-            //{
-            /*string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(test1, new Newtonsoft.Json.JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
-            if (jsonData != null)
-            {
-                using (StreamWriter file = new StreamWriter(path, false))
-                {
-                    file.Write(jsonData);
-                }
-            }*/
-
-            // MySaver mySaver = new MySaver();
-            //mySaver.Save(canvasFigureList, path, extension);
-            /*string? jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(canvasFigureList, new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
             if (jsonData != null)
             {
                 using (StreamWriter file = new StreamWriter(path, false))
@@ -235,17 +176,6 @@ namespace MyPaint3000.ViewModels
                     file.Write(jsonData);
                 }
             }
-
-        }
-            else if (extension == "xml")
-            {
-
-            }
-            else if (extension == "png")
-            {
-
-            }*/
-
         }
         private void AddBrokenLine()
         {

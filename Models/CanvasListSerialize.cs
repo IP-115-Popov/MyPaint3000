@@ -86,6 +86,18 @@ namespace MyPaint3000.Models
         public ObservableCollection<Shape> DeSerializeCanvas()
         {
             ObservableCollection<Shape> rez = new ObservableCollection<Shape>();
+            //распоковка json строк
+            ellipseWrappersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shape>>(jsonEllipseWrappersList);
+            List<Line> lineWrappersList1 = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Line>>(jsonLineWrappersList);
+            foreach (Line i in lineWrappersList1)
+            {
+                lineWrappersList.Add(i);
+            }
+            pathWrappersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shape>>(jsonPathWrappersList);
+            polygonWrappersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shape>>(jsonPolygonWrappersList);
+            polylineWrappersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shape>>(jsonPolylineWrappersList);
+            rectangleWrappersList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shape>>(jsonRectangleWrappersList);
+            //заплнение результата из массивов
             foreach (Shape i in ellipseWrappersList)
             {
                 rez.Add(i);
