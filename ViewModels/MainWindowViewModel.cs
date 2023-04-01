@@ -17,6 +17,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace MyPaint3000.ViewModels
 {
@@ -150,7 +151,14 @@ namespace MyPaint3000.ViewModels
             }
             else if (extension == "xml")
             {
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(CanvasListSerializeXml));
+                CanvasListSerializeXml test4 = new CanvasListSerializeXml();
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    test4 = xmlSerializer.Deserialize(fs) as CanvasListSerializeXml;
+                }
 
+                canvasFigureList = test4.DeSerializeCanvas();                    
             }
         }
         public void Save(string path, string extension) 
@@ -170,7 +178,18 @@ namespace MyPaint3000.ViewModels
             }
             else if (extension == "xml")
             {
-
+                CanvasListSerializeXml test4 = new CanvasListSerializeXml();
+                test4.SerializeCanvas(canvasFigureList);
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(CanvasListSerializeXml));
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    xmlSerializer.Serialize(fs, test4);
+                }
+                //XmlSerializer xmlSerializer = new XmlSerializer(typeof(ObservableCollection<Shape>));
+                //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+                //{
+                //    xmlSerializer.Serialize(fs, canvasFigureList);
+                //}
             }
             else if (extension == "png")
             {
