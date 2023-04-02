@@ -1,5 +1,8 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.VisualTree;
 using MyPaint3000.ViewModels;
 using System.Linq;
 
@@ -96,12 +99,21 @@ namespace MyPaint3000.Views
                     Name = "Png files",
                     Extensions = new string[] { "png" }.ToList()
                 });
-            string? path = await saveFileDialog.ShowAsync(this);
-            if (path != null)
+            string? result = await saveFileDialog.ShowAsync(this);
+            var canvas = this.GetVisualDescendants().OfType<Canvas>().Where(canvas => canvas.Name.Equals("canvas")).FirstOrDefault();
+            if (DataContext is MainWindowViewModel mainWindowViewModel)
             {
-                if (this.DataContext is MainWindowViewModel dataContext)
+                if (result != null)
                 {
-                    dataContext.Save(path, "png");
+                    var pxsize = new PixelSize((int)canvas.Bounds.Width, (int)canvas.Bounds.Height);
+                    var size = new Size(canvas.Bounds.Width, canvas.Bounds.Height);
+                    using (RenderTargetBitmap bitmap = new RenderTargetBitmap(pxsize, new Avalonia.Vector(96, 96)))
+                    {
+                        canvas.Measure(size);
+                        canvas.Arrange(new Rect(size));
+                        bitmap.Render(canvas);
+                        bitmap.Save(result);
+                    }
                 }
             }
         }
