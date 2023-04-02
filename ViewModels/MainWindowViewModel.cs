@@ -241,7 +241,7 @@ namespace MyPaint3000.ViewModels
                 //XmlSerializer serializer = new XmlSerializer(obj.GetType(), attrOverrides);
                 CanvasListSerializeXml test4 = new CanvasListSerializeXml();
                 test4.SerializeCanvas(canvasFigureList);
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(CanvasListSerializeXml), new Type[] {typeof(Color), typeof(Avalonia.Point) });
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(CanvasListSerializeXml));
                 using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
                 {
                     xmlSerializer.Serialize(fs, test4);

@@ -20,30 +20,39 @@ namespace MyPaint3000.Models
     public class CanvasListSerializeXml
     {
         //сериализуемые свойства
-        //public List<EllipseWrappers> ellipseWrappersList { get; set; }
+        public List<EllipseForSerialize> ellipseForSerializeList { get; set; }
         public List<LineForSerialize> lineForSerializeList { get; set; }
-        /*public List<PathWrappers> pathWrappersList { get; set; }
-        public List<PolygonWrappers> polygonWrappersList { get; set; }
-        public List<PolylineWrappers> polylineWrappersList { get; set; }
-        public List<RectangleWrappers> rectangleWrappersList { get; set; }*/
+        //public List<PathForSerialize> pathForSerializeList { get; set; }
+        //public List<PolygonForSerialize> polygonForSerializeList { get; set; }
+        //public List<PolylineForSerialize> polylineForSerializeList { get; set; }
+       // public List<RectangForSerialize> rectangleForSerializeList { get; set; }
         public CanvasListSerializeXml()
         {
-            //ellipseWrappersList = new List<EllipseWrappers>();
+            ellipseForSerializeList = new List<EllipseForSerialize>();
             lineForSerializeList = new List<LineForSerialize>();
-            /*pathWrappersList = new List<PathWrappers>();
-            polygonWrappersList = new List<PolygonWrappers>();
-            polylineWrappersList = new List<PolylineWrappers>();
-            rectangleWrappersList = new List<RectangleWrappers>();*/
+            //pathForSerializeList = new List<PathForSerialize>();
+            //polygonForSerializeList = new List<PolygonForSerialize>();
+            //polylineForSerializeList = new List<PolylineForSerialize>();
+           // rectangleForSerializeList = new List<RectangForSerialize>();
         }
         public void SerializeCanvas(ObservableCollection<Shape> canvasFigureList)
         {
             foreach (Shape i in canvasFigureList)
             {
-                /*if (i is Ellipse)
+                if (i is Ellipse)
                 {
-                    ellipseWrappersList.Add((EllipseWrappers)i);
+                    ellipseForSerializeList.Add(new EllipseForSerialize()
+                    {
+                        Width = ((Ellipse)i).Width.ToString(),
+                        Height = ((Ellipse) i).Height.ToString(),
+                        Stroke = ((Ellipse) i).Stroke.ToString(),
+                        StrokeThickness = ((Ellipse)i).StrokeThickness ,
+                        Margin = ((Ellipse) i).Margin.ToString(),
+                        Fill = ((Ellipse)i).Fill.ToString(),
+                        Name = ((Ellipse)i).Name,
+                });
                 }
-                else*/ if (i is Line)
+                else if (i is Line)
                 {
 
                     lineForSerializeList.Add(new LineForSerialize()
@@ -80,11 +89,20 @@ namespace MyPaint3000.Models
             //заплнение результата из массивов   
 
 
-           /* foreach (EllipseWrappers i in ellipseWrappersList)
+            foreach (EllipseForSerialize i in ellipseForSerializeList)
             {
                 //i.Margin = Avalonia.Thickness.Parse(i.MarginText);
-                rez.Add(i);
-            }*/
+                rez.Add(new Ellipse()
+                {
+                    Width = double.Parse(i.Width),
+                    Height = double.Parse(i.Height),
+                    Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                    StrokeThickness = i.StrokeThickness,
+                    Margin = Avalonia.Thickness.Parse(i.Margin),
+                    Fill = new SolidColorBrush(FromName(i.Fill)),
+                    Name = i.Name,
+                });
+            }
             foreach (LineForSerialize i in lineForSerializeList)
             {
                 rez.Add(new Line()
@@ -96,20 +114,20 @@ namespace MyPaint3000.Models
                     Stroke = new SolidColorBrush(FromName(i.Stroke)),//new Colors(i.Stroke)
                 });
             }
-            /*foreach (PathWrappers i in pathWrappersList)
+            /*foreach (PathForSerialize i in pathWrappersList)
             {
                 //i.Data = Geometry.Parse(i.DataText);
                 rez.Add(i);
             }
-            foreach (PolygonWrappers i in polygonWrappersList)
+            foreach (PolygonForSerialize i in polygonWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (PolylineWrappers i in polylineWrappersList)
+            foreach (PolylineForSerialize i in polylineWrappersList)
             {
                 rez.Add(i);
             }
-            foreach (RectangleWrappers i in rectangleWrappersList)
+            foreach (RectangleForSerialize i in rectangleWrappersList)
             {
                 rez.Add(i);
             }*/
