@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -22,7 +23,7 @@ namespace MyPaint3000.Models
         //сериализуемые свойства
         public List<EllipseForSerialize> ellipseForSerializeList { get; set; }
         public List<LineForSerialize> lineForSerializeList { get; set; }
-        //public List<PathForSerialize> pathForSerializeList { get; set; }
+        public List<PathForSerialize> pathForSerializeList { get; set; }
         //public List<PolygonForSerialize> polygonForSerializeList { get; set; }
         //public List<PolylineForSerialize> polylineForSerializeList { get; set; }
        // public List<RectangForSerialize> rectangleForSerializeList { get; set; }
@@ -30,7 +31,7 @@ namespace MyPaint3000.Models
         {
             ellipseForSerializeList = new List<EllipseForSerialize>();
             lineForSerializeList = new List<LineForSerialize>();
-            //pathForSerializeList = new List<PathForSerialize>();
+            pathForSerializeList = new List<PathForSerialize>();
             //polygonForSerializeList = new List<PolygonForSerialize>();
             //polylineForSerializeList = new List<PolylineForSerialize>();
            // rectangleForSerializeList = new List<RectangForSerialize>();
@@ -64,11 +65,18 @@ namespace MyPaint3000.Models
                         Stroke = ((SolidColorBrush?)i.Stroke).Color.ToString()
                     });
                 }
-                /*else if (i is Avalonia.Controls.Shapes.Path)
+                else if (i is Avalonia.Controls.Shapes.Path)
                 {
-                    pathWrappersList.Add((PathWrappers)i);
+                    pathForSerializeList.Add(new PathForSerialize()
+                    {
+                        Data = ((PathWrappers)i).DataText,
+                        Fill = ((Avalonia.Controls.Shapes.Path)i).Fill.ToString(),
+                        StrokeThickness = ((Avalonia.Controls.Shapes.Path)i).StrokeThickness,
+                        Stroke = ((Avalonia.Controls.Shapes.Path)i).Stroke.ToString(),
+                        Name = ((Avalonia.Controls.Shapes.Path)i).Name
+                    });
                 }
-                else if (i is Polygon)
+                /*else if (i is Polygon)
                 {
                     polygonWrappersList.Add((PolygonWrappers)i);
                 }
@@ -114,22 +122,44 @@ namespace MyPaint3000.Models
                     Stroke = new SolidColorBrush(FromName(i.Stroke)),//new Colors(i.Stroke)
                 });
             }
-            /*foreach (PathForSerialize i in pathWrappersList)
+            foreach (PathForSerialize i in pathForSerializeList)
             {
                 //i.Data = Geometry.Parse(i.DataText);
-                rez.Add(i);
+                rez.Add(new Avalonia.Controls.Shapes.Path()
+                {
+                    Data = Geometry.Parse(i.Data),
+                    Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                    StrokeThickness = i.StrokeThickness,
+                    Fill = new SolidColorBrush(FromName(i.Fill)),
+                    Name = i.Name,
+            });
             }
-            foreach (PolygonForSerialize i in polygonWrappersList)
+            /*foreach (PolygonForSerialize i in polygonWrappersList)
             {
-                rez.Add(i);
+                rez.Add( new Polygon()
+            {
+                Name = i.Name,
+                Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                StrokeThickness = i.StrokeThickness,
+            });
             }
             foreach (PolylineForSerialize i in polylineWrappersList)
             {
-                rez.Add(i);
+                rez.Add(new Polyline()
+            {
+                Name = i.Name,
+                Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                StrokeThickness = i.StrokeThickness,
+            });
             }
             foreach (RectangleForSerialize i in rectangleWrappersList)
             {
-                rez.Add(i);
+                rez.Add(new Rectangle()
+            {
+                Name = i.Name,
+                Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                StrokeThickness = i.StrokeThickness,
+            });
             }*/
             return rez;
         }
