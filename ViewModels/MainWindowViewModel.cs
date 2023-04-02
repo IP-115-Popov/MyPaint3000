@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using DynamicData;
@@ -10,6 +12,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Reactive;
 using System.Runtime.Serialization;
@@ -158,7 +161,7 @@ namespace MyPaint3000.ViewModels
                     test4 = xmlSerializer.Deserialize(fs) as CanvasListSerializeXml;
                 }
 
-                canvasFigureList = test4.DeSerializeCanvas();                    
+                CanvasFigureList = test4.DeSerializeCanvas();                    
             }
         }
         public void Save(string path, string extension) 
@@ -178,9 +181,67 @@ namespace MyPaint3000.ViewModels
             }
             else if (extension == "xml")
             {
+                //CanvasListSerializeXml test4 = new CanvasListSerializeXml();
+                //test4.SerializeCanvas(canvasFigureList);
+                //var serializer = new ConfigurationContainer().UseOptimizedNamespaces().Create();
+                /*XmlAttributeOverrides attrOverrides = new XmlAttributeOverrides();
+                XmlAttributes attrs = new XmlAttributes { XmlIgnore = true };
+                attrOverrides.Add(typeof(Avalonia.Animation.Animatable), "Clock", attrs);
+                attrOverrides.Add(typeof(Avalonia.Animation.Animatable), "Transitions", attrs);
+                attrOverrides.Add(typeof(Avalonia.StyledElement), "Styles", attrs);
+                attrOverrides.Add(typeof(Avalonia.StyledElement), "Resources", attrs);
+                attrOverrides.Add(typeof(Avalonia.StyledElement), "TemplatedParent", attrs);
+                attrOverrides.Add(typeof(Avalonia.StyledElement), "Parent", attrs);
+                attrOverrides.Add(typeof(Avalonia.Visual), "OpacityMask", attrs);*/
+
+                //XmlAttributeOverrides attrOverrides = new XmlAttributeOverrides();
+                //XmlAttributes attrs = new XmlAttributes { XmlIgnore = true };
+                //List<Tuple<Type, string>> ignoreTypeList = null;
+                //ignoreTypeList?.ForEach(t => attrOverrides.Add(t.Item1, t.Item2, attrs));    // ignore fields in ignoreTypeList
+
+
+                //foreach (var t in typeof(Avalonia.Animation.Animatable).GetProperties())
+                //{
+                //    if (attrOverrides[typeof(Avalonia.Animation.Animatable), t.Name] is null)
+                //            attrOverrides.Add(typeof(Avalonia.Animation.Animatable), t.Name, attrs); 
+                //}
+                //foreach (var t in typeof(Avalonia.StyledElement).GetProperties())
+                //{
+                //    if (attrOverrides[typeof(Avalonia.StyledElement), t.Name] is null)
+                //        attrOverrides.Add(typeof(Avalonia.StyledElement), t.Name, attrs);
+                //}
+                //foreach (var t in typeof(Avalonia.Visual).GetProperties())
+                //{
+                //    if (attrOverrides[typeof(Avalonia.Visual), t.Name] is null)
+                //        attrOverrides.Add(typeof(Avalonia.Visual), t.Name, attrs);
+                //}
+
+
+                //foreach (var t in typeof(Shape).GetProperties())
+                //{
+                //    if (attrOverrides[typeof(Avalonia.Animation.Animatable), t.Name] is null)
+                //        attrOverrides.Add(typeof(Avalonia.Animation.Animatable), t.Name, attrs);    // ignore interface type fields
+                //}
+                ////attrOverrides.Add(typeof(Avalonia.Animation.Animatable), "Transitions", attrs);
+                //foreach (var t in typeof(Avalonia.StyledElement).GetProperties())
+                //{
+                //    if (t.PropertyType.IsInterface)
+                //        if (attrOverrides[t.DeclaringType, t.Name] is null)
+                //            attrOverrides.Add(t.DeclaringType, t.Name, attrs);    // ignore interface type fields
+                //}
+                //foreach (var t in typeof(Avalonia.Visual).GetProperties())
+                //{
+                //    if (t.PropertyType.IsInterface)
+                //        if (attrOverrides[t.DeclaringType, t.Name] is null)
+                //            attrOverrides.Add(t.DeclaringType, t.Name, attrs);    // ignore interface type fields
+                //}
+                //attrOverrides.Add(typeof(Avalonia.StyledElement), "Parent", attrs);
+                //attrOverrides.Add(typeof(Avalonia.StyledElement), "Parent", attrs);
+                // "type" = type of the class that contains the member
+                //XmlSerializer serializer = new XmlSerializer(obj.GetType(), attrOverrides);
                 CanvasListSerializeXml test4 = new CanvasListSerializeXml();
                 test4.SerializeCanvas(canvasFigureList);
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(CanvasListSerializeXml));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(CanvasListSerializeXml), new Type[] {typeof(Color), typeof(Avalonia.Point) });
                 using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
                 {
                     xmlSerializer.Serialize(fs, test4);

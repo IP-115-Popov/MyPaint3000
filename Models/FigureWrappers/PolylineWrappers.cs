@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace MyPaint3000.Models.FigureWrappers
 {
