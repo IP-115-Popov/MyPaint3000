@@ -29,7 +29,7 @@ namespace MyPaint3000.Models
         public List<PathForSerialize> pathForSerializeList { get; set; }
         public List<PolygonForSerialize> polygonForSerializeList { get; set; }
         public List<PolylineForSerialize> polylineForSerializeList { get; set; }
-       // public List<RectangForSerialize> rectangleForSerializeList { get; set; }
+        public List<RectangForSerialize> rectangleForSerializeList { get; set; }
         public CanvasListSerializeXml()
         {
             ellipseForSerializeList = new List<EllipseForSerialize>();
@@ -37,7 +37,7 @@ namespace MyPaint3000.Models
             pathForSerializeList = new List<PathForSerialize>();
             polygonForSerializeList = new List<PolygonForSerialize>();
             polylineForSerializeList = new List<PolylineForSerialize>();
-           // rectangleForSerializeList = new List<RectangForSerialize>();
+            rectangleForSerializeList = new List<RectangForSerialize>();
         }
         public void SerializeCanvas(ObservableCollection<Shape> canvasFigureList)
         {
@@ -100,10 +100,19 @@ namespace MyPaint3000.Models
                         Points = ((PolylineWrappers)i).PointsText,
                     });
                 }
-                /*else if (i is Avalonia.Controls.Shapes.Rectangle)
+                else if (i is Avalonia.Controls.Shapes.Rectangle)
                 {
-                    rectangleForSerializeList.Add((RectangleForSerialize)i);
-                }*/
+                    rectangleForSerializeList.Add(new RectangForSerialize()
+                    {
+                        Width = ((Rectangle)i).Width.ToString(),
+                        Height = ((Rectangle)i).Height.ToString(),
+                        Stroke = ((Rectangle)i).Stroke.ToString(),
+                        StrokeThickness = ((Rectangle)i).StrokeThickness,
+                        Margin = ((Rectangle)i).Margin.ToString(),
+                        Fill = ((Rectangle)i).Fill.ToString(),
+                        Name = ((Rectangle)i).Name,
+                    });
+                }
             }
         }
         public ObservableCollection<Shape> DeSerializeCanvas()
@@ -187,15 +196,19 @@ namespace MyPaint3000.Models
                 polyl.Points = listOfPoints;
                 rez.Add(polyl);
             }
-            /*foreach (RectangleForSerialize i in rectangleWrappersList)
+            foreach (RectangForSerialize i in rectangleForSerializeList)
             {
                 rez.Add(new Rectangle()
                 {
-                    Name = i.Name,
+                    Width = double.Parse(i.Width),
+                    Height = double.Parse(i.Height),
                     Stroke = new SolidColorBrush(FromName(i.Stroke)),
                     StrokeThickness = i.StrokeThickness,
+                    Margin = Avalonia.Thickness.Parse(i.Margin),
+                    Fill = new SolidColorBrush(FromName(i.Fill)),
+                    Name = i.Name,
                 });
-            }*/
+            }
             return rez;
         }
         public static Color FromName(String name)

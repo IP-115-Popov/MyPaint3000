@@ -16,18 +16,21 @@ namespace MyPaint3000.Models.FigureForSerialise
         [DataMember]
         public double StrokeThickness { get; set; }
         [DataMember]
-        public IBrush? Stroke { get; set; }
+        public string? Stroke { get; set; }
+
         [DataMember]
         public string? Name { get; set; }
         [DataMember]
-        public double Width { get; set; }
+        public string? Width { get; set; }
         [DataMember]
-        public double Height { get; set; }
+        public string? Height { get; set; }
         [DataMember]
-        public Thickness Margin { get; set; }
+        public string? Margin { get; set; }
+
         [DataMember]
-        public string MarginText { get; set; }
+        public string? MarginText { get; set; }
+
         [DataMember]
-        public IBrush? Fill { get; set; }
+        public string? Fill { get; set; }
     }
 }
