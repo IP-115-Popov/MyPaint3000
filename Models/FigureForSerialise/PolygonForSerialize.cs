@@ -16,15 +16,15 @@ namespace MyPaint3000.Models.FigureForSerialise
         [DataMember]
         public double StrokeThickness { get; set; }
         [DataMember]
-        public IBrush? Stroke { get; set; }
+        public string? Stroke { get; set; }
 
         [DataMember]
         public string? Name { get; set; }
         [DataMember]
-        public IList<Point> Points { get; set; }
+        public string? Points { get; set; }
 
         [DataMember]
-        public IBrush? Fill { get; set; }
+        public string? Fill { get; set; }
 
     }
 }

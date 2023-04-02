@@ -247,6 +247,7 @@ namespace MyPaint3000.ViewModels
             poly.StrokeThickness = polygonViewModel.LineSize;
             poly.Stroke = polygonViewModel.SelectedColorLine.MyBrush;
             poly.Points = listOfPoints;
+            poly.PointsText = polygonViewModel.MyPoints;
             poly.Fill = polygonViewModel.SelectedColorFill.MyBrush;
             poly.Name = polygonViewModel.Name;
             CanvasFigureList.Add(poly);          

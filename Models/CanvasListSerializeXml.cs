@@ -3,6 +3,7 @@ using Avalonia.Media;
 using MyPaint3000.Models.FigureForSerialise;
 using MyPaint3000.Models.FigureWrappers;
 using MyPaint3000.ViewModels.Page;
+using MyPaint3000.Views.Page;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using static System.Net.WebRequestMethods;
 
 namespace MyPaint3000.Models
 {
@@ -24,7 +26,7 @@ namespace MyPaint3000.Models
         public List<EllipseForSerialize> ellipseForSerializeList { get; set; }
         public List<LineForSerialize> lineForSerializeList { get; set; }
         public List<PathForSerialize> pathForSerializeList { get; set; }
-        //public List<PolygonForSerialize> polygonForSerializeList { get; set; }
+        public List<PolygonForSerialize> polygonForSerializeList { get; set; }
         //public List<PolylineForSerialize> polylineForSerializeList { get; set; }
        // public List<RectangForSerialize> rectangleForSerializeList { get; set; }
         public CanvasListSerializeXml()
@@ -32,7 +34,7 @@ namespace MyPaint3000.Models
             ellipseForSerializeList = new List<EllipseForSerialize>();
             lineForSerializeList = new List<LineForSerialize>();
             pathForSerializeList = new List<PathForSerialize>();
-            //polygonForSerializeList = new List<PolygonForSerialize>();
+            polygonForSerializeList = new List<PolygonForSerialize>();
             //polylineForSerializeList = new List<PolylineForSerialize>();
            // rectangleForSerializeList = new List<RectangForSerialize>();
         }
@@ -76,17 +78,24 @@ namespace MyPaint3000.Models
                         Name = ((Avalonia.Controls.Shapes.Path)i).Name
                     });
                 }
-                /*else if (i is Polygon)
+                else if (i is Polygon)
                 {
-                    polygonWrappersList.Add((PolygonWrappers)i);
+                    polygonForSerializeList.Add(new PolygonForSerialize()
+                    {
+                        StrokeThickness = ((Polygon)i).StrokeThickness,
+                        Stroke = ((Polygon)i).Stroke.ToString(),
+                        Points = ((PolygonWrappers)i).PointsText,
+                        Fill = ((Polygon)i).Fill.ToString(),
+                        Name = ((Polygon)i).Name
+                });
                 }
-                else if (i is Polyline)
+                /*else if (i is Polyline)
                 {
-                    polylineWrappersList.Add((PolylineWrappers)i);
+                    polylineForSerializeList.Add((PolylineForSerialize)i);
                 }
                 else if (i is Avalonia.Controls.Shapes.Rectangle)
                 {
-                    rectangleWrappersList.Add((RectangleWrappers)i);
+                    rectangleForSerializeList.Add((RectangleForSerialize)i);
                 }*/
             }
         }
@@ -134,16 +143,25 @@ namespace MyPaint3000.Models
                     Name = i.Name,
             });
             }
-            /*foreach (PolygonForSerialize i in polygonWrappersList)
+            foreach (PolygonForSerialize i in polygonForSerializeList)
             {
-                rez.Add( new Polygon()
-            {
-                Name = i.Name,
-                Stroke = new SolidColorBrush(FromName(i.Stroke)),
-                StrokeThickness = i.StrokeThickness,
-            });
+                Polygon poly = new Polygon()
+                {
+                    Name = i.Name,
+                    Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                    StrokeThickness = i.StrokeThickness,
+                    Fill = new SolidColorBrush(FromName(i.Fill)),
+                };
+                List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
+                string[] words = i.Points.Split(' ');            
+                foreach (string word in words)
+                {
+                    listOfPoints.Add(Avalonia.Point.Parse(word));
+                }
+                poly.Points = listOfPoints;
+                rez.Add(poly);
             }
-            foreach (PolylineForSerialize i in polylineWrappersList)
+            /*foreach (PolylineForSerialize i in polylineWrappersList)
             {
                 rez.Add(new Polyline()
             {
