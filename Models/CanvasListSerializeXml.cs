@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls.Shapes;
+﻿using Avalonia;
+using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using MyPaint3000.Models.FigureForSerialise;
 using MyPaint3000.Models.FigureWrappers;
@@ -27,7 +28,7 @@ namespace MyPaint3000.Models
         public List<LineForSerialize> lineForSerializeList { get; set; }
         public List<PathForSerialize> pathForSerializeList { get; set; }
         public List<PolygonForSerialize> polygonForSerializeList { get; set; }
-        //public List<PolylineForSerialize> polylineForSerializeList { get; set; }
+        public List<PolylineForSerialize> polylineForSerializeList { get; set; }
        // public List<RectangForSerialize> rectangleForSerializeList { get; set; }
         public CanvasListSerializeXml()
         {
@@ -35,7 +36,7 @@ namespace MyPaint3000.Models
             lineForSerializeList = new List<LineForSerialize>();
             pathForSerializeList = new List<PathForSerialize>();
             polygonForSerializeList = new List<PolygonForSerialize>();
-            //polylineForSerializeList = new List<PolylineForSerialize>();
+            polylineForSerializeList = new List<PolylineForSerialize>();
            // rectangleForSerializeList = new List<RectangForSerialize>();
         }
         public void SerializeCanvas(ObservableCollection<Shape> canvasFigureList)
@@ -89,11 +90,17 @@ namespace MyPaint3000.Models
                         Name = ((Polygon)i).Name
                 });
                 }
-                /*else if (i is Polyline)
+                else if (i is Polyline)
                 {
-                    polylineForSerializeList.Add((PolylineForSerialize)i);
+                    polylineForSerializeList.Add(new PolylineForSerialize()
+                    {
+                        StrokeThickness = ((Polyline)i).StrokeThickness,
+                        Stroke = ((Polyline)i).Stroke.ToString(),
+                        Name = ((Polyline)i).Name,
+                        Points = ((PolylineWrappers)i).PointsText,
+                    });
                 }
-                else if (i is Avalonia.Controls.Shapes.Rectangle)
+                /*else if (i is Avalonia.Controls.Shapes.Rectangle)
                 {
                     rectangleForSerializeList.Add((RectangleForSerialize)i);
                 }*/
@@ -161,23 +168,33 @@ namespace MyPaint3000.Models
                 poly.Points = listOfPoints;
                 rez.Add(poly);
             }
-            /*foreach (PolylineForSerialize i in polylineWrappersList)
+            foreach (PolylineForSerialize i in polylineForSerializeList)
             {
-                rez.Add(new Polyline()
-            {
-                Name = i.Name,
-                Stroke = new SolidColorBrush(FromName(i.Stroke)),
-                StrokeThickness = i.StrokeThickness,
-            });
+                Polyline polyl = new Polyline()
+                {
+                    Name = i.Name,
+                    Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                    StrokeThickness = i.StrokeThickness,
+
+                };
+                List<Avalonia.Point> listOfPoints = new List<Avalonia.Point>();
+                string[] words = i.Points.Split(' ');
+                foreach (string word in words)
+                {
+                    //0,0 65,0 78,26 91,39
+                    listOfPoints.Add(Avalonia.Point.Parse(word));
+                }
+                polyl.Points = listOfPoints;
+                rez.Add(polyl);
             }
-            foreach (RectangleForSerialize i in rectangleWrappersList)
+            /*foreach (RectangleForSerialize i in rectangleWrappersList)
             {
                 rez.Add(new Rectangle()
-            {
-                Name = i.Name,
-                Stroke = new SolidColorBrush(FromName(i.Stroke)),
-                StrokeThickness = i.StrokeThickness,
-            });
+                {
+                    Name = i.Name,
+                    Stroke = new SolidColorBrush(FromName(i.Stroke)),
+                    StrokeThickness = i.StrokeThickness,
+                });
             }*/
             return rez;
         }

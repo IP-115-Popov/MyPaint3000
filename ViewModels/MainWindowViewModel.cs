@@ -199,13 +199,14 @@ namespace MyPaint3000.ViewModels
             string[] words = brokenLineViewModel.MyPoints.Split(' ');
             foreach (string word in words)
             {
-                //0,0 65,0 78,26, 91,39
+                //0,0 65,0 78,26 91,39
                 listOfPoints.Add(Avalonia.Point.Parse(word));
             }
             PolylineWrappers BLine = new PolylineWrappers();
             BLine.StrokeThickness = brokenLineViewModel.LineSize;
             BLine.Stroke = brokenLineViewModel.SelectedColorLine.MyBrush;
             BLine.Points = listOfPoints;
+            BLine.PointsText = brokenLineViewModel.MyPoints;
             BLine.Name = brokenLineViewModel.Name;
             CanvasFigureList.Add(BLine);           
         }

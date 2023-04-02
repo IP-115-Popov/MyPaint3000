@@ -23,6 +23,7 @@ namespace MyPaint3000.Models.FigureWrappers
             get { return GetValue(PointsProperty); }
             set { SetValue(PointsProperty, value); }
         }
+        public string PointsText { get; set; }
         [DataMember]
         public double StrokeThickness
         {
